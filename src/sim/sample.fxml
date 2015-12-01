@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.cell.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.Controller">
+    <tabs>
+        <Tab text="Main">
+            <content>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Pane>
+                            <children>
+                                <Canvas fx:id="layer1" height="548.0" width="634.0" />
+                                <Canvas fx:id="layer2" height="548.0" width="634.0" />
+                                <Canvas fx:id="layer3" height="548.0" width="634.0" />
+                                <Button fx:id="Movebutton" layoutX="279.0" layoutY="533.0" mnemonicParsing="false" onAction="#ButtonClick" onKeyPressed="#ButtonKey" text="Move !!" />
+                            </children>
+                        </Pane>
+                        <VBox alignment="TOP_RIGHT">
+                            <children>
+                                <HBox prefHeight="35.0" prefWidth="302.0">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="53.0" prefWidth="303.0" text="Time">
+                                            <graphic>
+                                                <TextField fx:id="timeArea" text="0" />
+                                            </graphic>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="carList">
+                                    <columns>
+                                        <TableColumn fx:id="carName" editable="false" prefWidth="75.0" text="Name">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="name" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn editable="false" prefWidth="64.0" text="Start">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="startingPoint" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                    </columns>
+                                </TableView>
+                                <TableView fx:id="ambulanceList">
+                                    <columns>
+                                        <TableColumn fx:id="ambulanceName" editable="false" prefWidth="75.0" text="Name">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="name" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn editable="false" prefWidth="64.0" text="Start">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="startingPoint" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn editable="false" prefWidth="86.0" text="Destination">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="destination" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn editable="false" prefWidth="75.0" text="Time">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="startTime" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </content>
+        </Tab>
+        <Tab text="Statistics">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <StackedAreaChart layoutX="38.0" layoutY="244.0" prefHeight="288.0" prefWidth="346.0">
+                            <xAxis>
+                                <NumberAxis side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis side="LEFT" />
+                            </yAxis>
+                        </StackedAreaChart>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
