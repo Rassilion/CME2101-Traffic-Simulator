@@ -34,10 +34,10 @@ public class Vehicle {
         return name;
     }
 
-    public Vehicle(Node startingPoint, String name,Hashtable ht) {
+    public Vehicle(Node startingPoint, String name, Hashtable ht) {
         this.startingPoint = startingPoint.name;
         this.currentNode = startingPoint;
-        this.loop=ht;
+        this.loop = ht;
         nextNode = null;
         previousNode = null;
         this.name = name;
@@ -124,8 +124,8 @@ public class Vehicle {
                 break;
             }
         }
-        loop.setElement(currentNode.name,(a+1));
-
+        loop.setElement(currentNode.name, (a + 1));
+        nextNode = temp;
 //        do {
 //            temp = currentNode.adjacent[0];
 //            if (temp!=null&&previousNode != temp)
@@ -160,7 +160,7 @@ public class Vehicle {
 //
 //
 //        } while (temp!=null);
-        nextNode = temp;
+
     }
 
     public void heuristic2() {

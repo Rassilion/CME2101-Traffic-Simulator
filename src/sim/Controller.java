@@ -39,13 +39,14 @@ public class Controller implements Initializable {
     public Image dw = new Image("/dw.png");
     public Image dn = new Image("/dn.png");
 
-
+    public ObservableList<Vehicle> car;
+    public ObservableList<Ambulance> ambulance;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Table list
-        ObservableList<Vehicle> car = FXCollections.observableArrayList();
+        car = FXCollections.observableArrayList();
         for (Vehicle vehicle : s.getVehicles()) {
             if (vehicle == null) {
                 break;
@@ -54,7 +55,7 @@ public class Controller implements Initializable {
         }
         carList.setItems(car);
 
-        ObservableList<Ambulance> ambulance = FXCollections.observableArrayList();
+        ambulance = FXCollections.observableArrayList();
         for (Ambulance vehicle : s.getAmbulances()) {
             if (vehicle == null) {
                 break;
@@ -68,12 +69,18 @@ public class Controller implements Initializable {
 
     }
 
+    public void updateTables(){
+        carList.refresh();
+        ambulanceList.refresh();
+    }
+
     //Move button
     public void ButtonClick() {
         s.setTick(s.getTick() + 1);
         timeArea.setText(String.valueOf(s.getTick()));
         s.simulate();
         drawVehicle();
+        updateTables();
     }
 
     //Key listener
