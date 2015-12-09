@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Stack;
 
 public class Simulation {
 
@@ -37,8 +38,14 @@ public class Simulation {
             System.out.println();
         }
         display();
+        Stack<Node> a=map.BFS(map.getNode("A"),map.getNode("I"));
+        while (!a.isEmpty())
+        {
+            System.out.println(a.pop());
+        }
     }
-    public void display(){
+
+    public void display() {
         System.out.println("vehicles");
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
@@ -55,6 +62,25 @@ public class Simulation {
     }
 
     public void simulate() {
+        for (Vehicle vehicle : ambulances) {
+            if (vehicle == null) {
+                break;
+            }
+            //select next node
+            vehicle.heuristic2();
+        }
+        for (Vehicle vehicle : ambulances) {
+            if (vehicle == null) {
+                break;
+            }
+            // vehicle wait
+            if (vehicle.getNextNode().getVehiclecount() == 4) {
+                vehicle.updateWait();
+                continue;
+            }
+            vehicle.move();
+        }
+
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
                 break;
@@ -108,7 +134,7 @@ public class Simulation {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] splited = line.split(" "); // Split lines by space
                 if (splited.length == 2) {
-                    Vehicle vehicle = new Vehicle(map.getNode(splited[1]), splited[0],new Hashtable(map.getNodes()));
+                    Vehicle vehicle = new Vehicle(map.getNode(splited[1]), splited[0], new Hashtable(map.getNodes()));
                     addVehicle(vehicle);
                     map.getNode(splited[1]).addVehicle(vehicle);
                 } else if (splited.length == 4) {
