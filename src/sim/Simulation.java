@@ -42,8 +42,13 @@ public class Simulation {
         while (!a.isEmpty()) {
             System.out.println(a.pop());
         }
-        writeNode();
-        writeVehicle();
+        try {
+            writeNode();
+            writeVehicle();
+        } catch (Exception e) {
+            //TODO print some information
+        }
+
     }
 
     public void display() {
