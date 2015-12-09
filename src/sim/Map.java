@@ -1,6 +1,9 @@
 package sim;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class Map {
 
@@ -58,4 +61,44 @@ public class Map {
         from.adjacent[direc] = to;
 
     }
+
+    public Stack<Node> BFS(Node startPoint, Node endPoint) {
+        Queue<Node> q = new LinkedList<>();
+        boolean[] visited = new boolean[nodes.size()];
+        Node[] previous = new Node[nodes.size()];
+        q.add(startPoint);
+        visited[startPoint.id] = true;
+        while (!q.isEmpty()) {
+            Node n, child;
+            n = (q.peek());
+            for (int i = 0; i < 4; i++) {
+
+                if (n.adjacent[i] != null )
+                {
+                    if( visited[n.adjacent[i].id] != true) {
+                        q.add(n.adjacent[i]);
+                        previous[n.adjacent[i].id] = n;
+                        visited[n.adjacent[i].id] = true;
+                    }
+                }
+
+            }
+            q.remove();
+
+
+        }
+        Stack<Node> path = new Stack<>();
+        Node temp = endPoint;
+
+        while (temp != startPoint) {
+            path.push(temp);
+            temp = previous[temp.id];
+
+
+        }
+        path.push(startPoint);
+        return path;
+    }
+
+
 }

@@ -2,6 +2,8 @@ package sim;
 
 import javafx.scene.paint.Color;
 
+import java.util.Stack;
+
 public class Ambulance extends Vehicle {
 
     String destination;
@@ -48,12 +50,10 @@ public class Ambulance extends Vehicle {
         return "name: " + name + " start:" + startingPoint + " dest: " + destination + " time: " + startTime;
     }
 
-    @Override
-    public void move() {
 
-    }
 
     private void shortestPath() {
+        
 
     }
 

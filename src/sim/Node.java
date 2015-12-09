@@ -8,6 +8,8 @@ public class Node {
     public Vehicle[] vehicles;
     public double x;
     public double y;
+    public int id;
+    public static int uniqueId = 0;
 
     public Node(String name) {
         this.adjacent = new Node[4];
@@ -15,6 +17,9 @@ public class Node {
         x = 0;
         y = 0;
         vehicles = new Vehicle[4];
+        id = uniqueId;
+        uniqueId++;
+
     }
 
     public void addVehicle(Vehicle vehicle) {
