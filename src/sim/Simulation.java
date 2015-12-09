@@ -110,7 +110,7 @@ public class Simulation {
         }
         display();
         try {
-            
+
             writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
