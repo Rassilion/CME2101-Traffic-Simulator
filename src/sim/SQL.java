@@ -10,7 +10,7 @@ public class SQL {
     Connection conn;
     PreparedStatement preparedStmt;
 
-    public SQL() throws SQLException {
+    public SQL()  {
 
         try {
             String myDriver = "com.mysql.jdbc.Driver";
@@ -19,6 +19,8 @@ public class SQL {
             conn = DriverManager.getConnection(db, "Kahveci", "123456");
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

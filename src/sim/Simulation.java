@@ -10,7 +10,7 @@ public class Simulation {
 
     private Vehicle[] vehicles;
     private Ambulance[] ambulances;
-
+    SQL mysql=new SQL();
     private Map map;
     private int tick;
 
@@ -98,7 +98,16 @@ public class Simulation {
             }
         }
     }
+public void writeVehicle()
+{
+    for (int i = 0; i <vehicles.length ; i++) {
 
+         mysql.Vehicle_Insert(vehicles[i]);
+
+    }
+
+
+}
     public void readVehicle(String url) {
         try {
             FileReader fileReader = new FileReader(new File(url));
