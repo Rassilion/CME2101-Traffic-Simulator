@@ -103,12 +103,17 @@ public class Vehicle {
     }
 
     public void move() {
-        currentNode.deleteVehicle(this);
-        previousNode = currentNode;
-        currentNode = nextNode;
-        wait = 0;
-        currentNode.addVehicle(this);
-        nextNode = null;
+        if (nextNode!=null){
+            currentNode.deleteVehicle(this);
+            previousNode = currentNode;
+            currentNode = nextNode;
+            wait = 0;
+            currentNode.addVehicle(this);
+            nextNode = null;
+        }
+
+
+
     }
 
     public void heuristic1() {
