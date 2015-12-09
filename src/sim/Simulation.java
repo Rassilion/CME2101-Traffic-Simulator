@@ -109,6 +109,12 @@ public class Simulation {
             vehicle.move();
         }
         display();
+        try {
+            
+            writeTime(tick);
+        } catch (Exception e) {
+            //TODO print some information
+        }
 
     }
 
