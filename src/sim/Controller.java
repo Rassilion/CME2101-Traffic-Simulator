@@ -81,6 +81,7 @@ public class Controller implements Initializable {
         s.simulate();
         drawVehicle();
         updateTables();
+
     }
 
     //Key listener
