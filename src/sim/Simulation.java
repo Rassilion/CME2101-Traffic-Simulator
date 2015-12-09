@@ -45,6 +45,7 @@ public class Simulation {
         try {
             writeNode();
             writeVehicle();
+            writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
@@ -66,6 +67,7 @@ public class Simulation {
             vehicle.display();
         }
     }
+
 
     public void simulate() {
 
@@ -158,7 +160,22 @@ public class Simulation {
 
     }
 
-    public void writeTime() {
+    public void writeTime(int time) {
+
+        for (Node node : map.getNodes()) {
+
+            for (int i = 0; i < node.vehicles.length; i++) {
+
+                if (node.vehicles[i] == null) {
+                    continue;
+                }
+                mysql.Time_Insert_V_N(time, node.name, node.vehicles[i].getName());
+
+
+            }
+
+
+        }
 
 
     }
