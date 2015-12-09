@@ -11,7 +11,7 @@ public class Simulation {
 
     private Vehicle[] vehicles;
     private Ambulance[] ambulances;
-    SQL mysql=new SQL();
+    SQL mysql = new SQL();
     private Map map;
     private int tick;
 
@@ -38,11 +38,12 @@ public class Simulation {
             System.out.println();
         }
         display();
-        Stack<Node> a=map.BFS(map.getNode("A"),map.getNode("I"));
-        while (!a.isEmpty())
-        {
+        Stack<Node> a = map.BFS(map.getNode("A"), map.getNode("I"));
+        while (!a.isEmpty()) {
             System.out.println(a.pop());
         }
+        writeNode();
+        writeVehicle();
     }
 
     public void display() {
@@ -62,6 +63,7 @@ public class Simulation {
     }
 
     public void simulate() {
+
         for (Vehicle vehicle : ambulances) {
             if (vehicle == null) {
                 break;
@@ -124,16 +126,38 @@ public class Simulation {
             }
         }
     }
-public void writeVehicle()
-{
-    for (int i = 0; i <vehicles.length ; i++) {
 
-         mysql.Vehicle_Insert(vehicles[i]);
+    public void writeVehicle() {
+        for (int i = 0; i < vehicles.length; i++) {
+            if (vehicles[i] == null) {
+                break;
+            }
+
+            mysql.Vehicle_Insert("Car", vehicles[i].getName());
+
+        }
+        for (int i = 0; i < ambulances.length; i++) {
+            if (ambulances[i] == null) {
+                break;
+            }
+            mysql.Vehicle_Insert("Ambulance", ambulances[i].getName());
+        }
 
     }
 
+    public void writeNode() {
 
-}
+        for (Node node : map.getNodes()) {
+            mysql.Node_Insert(node.name);
+        }
+
+    }
+
+    public void writeTime() {
+
+
+    }
+
     public void readVehicle(String url) {
         try {
             FileReader fileReader = new FileReader(new File(url));
