@@ -38,10 +38,7 @@ public class Simulation {
             System.out.println();
         }
         display();
-        Stack<Node> a = map.BFS(map.getNode("A"), map.getNode("I"));
-        while (!a.isEmpty()) {
-            System.out.println(a.pop());
-        }
+
         try {
             writeNode();
             writeVehicle();
@@ -71,25 +68,6 @@ public class Simulation {
 
     public void simulate() {
 
-        for (Vehicle vehicle : ambulances) {
-            if (vehicle == null) {
-                break;
-            }
-            //select next node
-            vehicle.heuristic2();
-        }
-        for (Vehicle vehicle : ambulances) {
-            if (vehicle == null) {
-                break;
-            }
-            // vehicle wait
-            if (vehicle.getNextNode().getVehiclecount() == 4) {
-                vehicle.updateWait();
-                continue;
-            }
-            vehicle.move();
-        }
-
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
                 break;
@@ -97,6 +75,21 @@ public class Simulation {
             //select next node
             vehicle.heuristic1();
         }
+
+        for (Ambulance vehicle : ambulances) {
+            if (vehicle == null) {
+                break;
+            }
+
+
+            vehicle.move();
+            if (tick == vehicle.getStartTime()) {
+                vehicle.setActive();
+
+            }
+
+        }
+
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
                 break;
@@ -201,7 +194,10 @@ public class Simulation {
                 } else if (splited.length == 4) {
                     Ambulance ambulance = new Ambulance(splited[3], Integer.parseInt(splited[1]), map.getNode(splited[2]), splited[0]);
                     addAmbulance(ambulance);
-                    map.getNode(splited[2]).addVehicle(ambulance);
+                    if (Integer.parseInt(splited[1]) == 0) {
+                        ambulance.setActive();
+                    }
+                    ambulance.setShortestPath(map.BFS(map.getNode(splited[2]), map.getNode(splited[3])), map.BFS(map.getNode(splited[3]), map.getNode(splited[2])));
                 } else {
                     System.out.println("input error");
                 }
