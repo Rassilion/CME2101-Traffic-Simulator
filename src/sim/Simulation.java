@@ -40,9 +40,11 @@ public class Simulation {
         display();
 
         try {
+
+            mysql.Sim_Control();
             writeNode();
             writeVehicle();
-            writeTime(tick);
+           writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
@@ -104,7 +106,7 @@ public class Simulation {
         display();
         try {
 
-            writeTime(tick);
+          writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
