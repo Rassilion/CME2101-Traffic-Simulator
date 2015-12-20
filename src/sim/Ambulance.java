@@ -9,6 +9,7 @@ public class Ambulance extends Vehicle {
     String destination;
     int startTime;
     int delay;
+    int endTime;
 
 
 
@@ -26,6 +27,7 @@ public class Ambulance extends Vehicle {
         this.setColor(Color.DARKRED);
         this.active=false;
         this.finish=false;
+        this.endTime=startingtime;
     }
 
     public String getDestination() {

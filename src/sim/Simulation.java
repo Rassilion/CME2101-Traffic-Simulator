@@ -100,6 +100,7 @@ public class Simulation {
 
 
                 vehicle.move();
+                vehicle.endTime++;
                 if (tick == vehicle.getStartTime()) {
                     vehicle.setActive();
 
@@ -137,6 +138,9 @@ public class Simulation {
     }
 
     public void getStatistics() {
+
+
+
 
     }
 
