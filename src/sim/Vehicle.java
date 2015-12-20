@@ -103,7 +103,7 @@ public class Vehicle {
     }
 
     public void move() {
-        if (nextNode!=null){
+        if (nextNode != null) {
             currentNode.deleteVehicle(this);
             previousNode = currentNode;
             currentNode = nextNode;
@@ -111,13 +111,9 @@ public class Vehicle {
             currentNode.addVehicle(this);
             nextNode = null;
         }
-
-
-
     }
 
     public void heuristic1() {
-
         Node temp = null;
         int a = loop.getElement(currentNode.name);
         for (int i = a; i < a + 4; i++) {
@@ -131,41 +127,6 @@ public class Vehicle {
         }
         loop.setElement(currentNode.name, (a + 1));
         nextNode = temp;
-//        do {
-//            temp = currentNode.adjacent[0];
-//            if (temp!=null&&previousNode != temp)
-//                break;
-//            temp = currentNode.adjacent[1];
-//            if (temp!=null&&previousNode != temp)
-//                break;
-//            temp = currentNode.adjacent[2];
-//            if (temp!=null&&previousNode != temp)
-//                break;
-//            temp = currentNode.adjacent[3];
-//            if (temp!=null&&previousNode != temp)
-//                break;
-//            if(currentNode.getAdjacentCount()==1){
-//                if (currentNode.adjacent[0] != null) {
-//                    temp = currentNode.adjacent[0];
-//                    break;
-//                }
-//                else if (currentNode.adjacent[2] != null) {
-//                    temp = currentNode.adjacent[2];
-//                    break;
-//                }
-//                else if (currentNode.adjacent[3] != null) {
-//                    temp = currentNode.adjacent[3];
-//                    break;
-//                }
-//                else if (currentNode.adjacent[1] != null) {
-//                    temp = currentNode.adjacent[1];
-//                    break;
-//                }
-//            }
-//
-//
-//        } while (temp!=null);
-
     }
 
     public void heuristic2() {

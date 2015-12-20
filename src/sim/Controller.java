@@ -73,21 +73,30 @@ public class Controller implements Initializable {
 
     }
 
-    public void updateTables(){
+    public void updateTables() {
         carList.refresh();
         ambulanceList.refresh();
     }
 
     //Move button
     public void ButtonClick() {
-        s.setTick(s.getTick() + 1);
-        timeArea.setText(String.valueOf(s.getTick()));
-        s.simulate();
-        drawVehicle();
-        updateTables();
-
+        if (s.finishCondition() == false) {
+            s.setTick(s.getTick() + 1);
+            timeArea.setText(String.valueOf(s.getTick()));
+            s.simulate();
+            drawVehicle();
+            updateTables();
+        }
+        if (s.finishCondition() == true) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Simulation Message");
+            alert.setHeaderText("Simulation Message");
+            alert.setContentText("Simulation Finished !!!!!!!!");
+            alert.showAndWait();
+        }
     }
-    public void BackUpButton(){
+
+    public void BackUpButton() {
         System.out.println(datePicker.getValue().toString());
 
     }
