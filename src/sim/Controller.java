@@ -27,7 +27,11 @@ public class Controller implements Initializable {
     public Canvas layer3;
     public Simulation s = new Simulation();
     public Button MoveButton;
+    public Button backupButton;
     public TextField timeArea;
+    public DatePicker datePicker;
+    public Canvas backUpCanvas;
+
 
     //images
     public Image road = new Image("/road.png");
@@ -81,6 +85,10 @@ public class Controller implements Initializable {
         s.simulate();
         drawVehicle();
         updateTables();
+
+    }
+    public void BackUpButton(){
+        System.out.println(datePicker.getValue().toString());
 
     }
 

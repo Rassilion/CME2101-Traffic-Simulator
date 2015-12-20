@@ -118,10 +118,11 @@
          <content>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Canvas height="548.0" width="634.0" />
+                  <Canvas fx:id="backUpCanvas" height="548.0" width="634.0" />
                   <DatePicker fx:id="datePicker" layoutX="679.0" layoutY="40.0" prefHeight="31.0" prefWidth="209.0" />
                   <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" prefHeight="31.0" prefWidth="209.0" />
                   <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" />
+                  <Button fx:id="backupButton" layoutX="751.0" layoutY="277.0" mnemonicParsing="false" onAction="#BackUpButton" text="Back Up!!" />
                </children>
             </Pane>
          </content></Tab>
