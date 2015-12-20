@@ -75,7 +75,7 @@ public class Simulation {
                 break;
             }
             //select next node
-            vehicle.heuristic1();
+            vehicle.heuristic2();
         }
 
         for (Ambulance vehicle : ambulances) {
