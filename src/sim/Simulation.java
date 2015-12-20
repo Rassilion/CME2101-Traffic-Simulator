@@ -46,7 +46,7 @@ public class Simulation {
             mysql.Sim_Control();
             writeNode();
             writeVehicle();
-           writeTime(tick);
+            writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
@@ -68,72 +68,60 @@ public class Simulation {
             vehicle.display();
         }
     }
-    public boolean finishCondiition(){
-        boolean flag=true;
+
+    public boolean finishCondition() {
+        boolean flag = true;
         for (Ambulance vehicle : ambulances) {
             if (vehicle != null) {
-                if (vehicle.finish==false){
-                    flag=false;
+                if (!vehicle.finish) {
+                    flag = false;
                 }
             }
-
         }
         return flag;
     }
 
 
     public void simulate() {
-
-        if (finishCondiition()!=true) {
-            for (Vehicle vehicle : vehicles) {
-                if (vehicle == null) {
-                    break;
-                }
-                //select next node
-                vehicle.heuristic2();
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle == null) {
+                break;
             }
-
-            for (Ambulance vehicle : ambulances) {
-                if (vehicle == null) {
-                    break;
-                }
-
-
-                vehicle.move();
-                if (tick == vehicle.getStartTime()) {
-                    vehicle.setActive();
-
-                }
-
-            }
-
-            for (Vehicle vehicle : vehicles) {
-                if (vehicle == null) {
-                    break;
-                }
-                // vehicle wait
-                if (vehicle.getNextNode().getVehiclecount() == 4) {
-                    vehicle.updateWait();
-                    continue;
-                }
-                vehicle.move();
-            }
-            display();
-            try {
-
-                writeTime(tick);
-            } catch (Exception e) {
-                //TODO print some information
-            }
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Simulation Message");
-            alert.setHeaderText("Simulation Message");
-            alert.setContentText("Simulation Finished !!!!!!!!");
-            alert.showAndWait();
+            //select next node
+            vehicle.heuristic2();
         }
 
+        for (Ambulance vehicle : ambulances) {
+            if (vehicle == null) {
+                break;
+            }
+
+
+            vehicle.move();
+            if (tick == vehicle.getStartTime()) {
+                vehicle.setActive();
+
+            }
+
+        }
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle == null) {
+                break;
+            }
+            // vehicle wait
+            if (vehicle.getNextNode().getVehiclecount() == 4) {
+                vehicle.updateWait();
+                continue;
+            }
+            vehicle.move();
+        }
+        display();
+        try {
+            writeTime(tick);
+        } catch (Exception e) {
+            //TODO print some information
+        }
     }
 
     public void getStatistics() {
