@@ -25,6 +25,7 @@ public class Controller implements Initializable {
     public Canvas layer1;
     public Canvas layer2;
     public Canvas layer3;
+    public Canvas canvas1;
     public Simulation s = new Simulation();
     public Button MoveButton;
     public TextField timeArea;

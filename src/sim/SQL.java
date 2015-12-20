@@ -1,5 +1,7 @@
 package sim;
 
+import sun.util.locale.StringTokenIterator;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,12 +67,16 @@ public class SQL {
 
     }
 
-    public void Node_Insert(String NName) {
+    public void Node_Insert(String NName, String NodeE, String NodeS, String NodeW,String NodeN) {
         try {
-            String query = " Insert Into node (NodeName,SimId) Values (?,?)";
+            String query = " Insert Into node (NodeName,SimId,East,South,West,North) Values (?,?,?,?,?,?)";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, NName);
             preparedStmt.setInt(2, simno);
+            preparedStmt.setString(3, NodeE);
+            preparedStmt.setString(4, NodeS);
+            preparedStmt.setString(5, NodeW);
+            preparedStmt.setString(6, NodeN);
             preparedStmt.execute();
 
         } catch (SQLException e) {
@@ -88,7 +94,7 @@ public class SQL {
             while (rs.next()) {
                 nodeId = rs.getInt("NodeId");
             }
-            String query1 = "SELECT VehicleId FROM vehicle WHERE vehicle.VName=" + "'" + vehicleName + "'";
+            String query1 = "SELECT VehicleId FROM vehicle WHERE vehicle.VName=" + "'" + vehicleName + "' and vehicle.SimId="+simno+"";
             Statement st1 = conn.createStatement();
             ResultSet rs1 = st1.executeQuery(query1);
 
@@ -116,6 +122,9 @@ public class SQL {
                 timeId = rst.getInt("TimeId");
             }
 
+//SELECT * from date
+            //LEFT JOIN simulation on simulation.SimId=date.SimId
+           // where date.Date='20-12-2015'
 
             String querys = " Insert Into simulation (SimNo,TimeId) Values (?,?)";
             preparedStmt = conn.prepareStatement(querys);
@@ -125,7 +134,7 @@ public class SQL {
 
             String queryss = "SELECT SimId FROM simulation ORDER BY SimId DESC LIMIT 1";
             Statement stss = conn.createStatement();
-            ResultSet rsss = stt.executeQuery(queryss);
+            ResultSet rsss = stss.executeQuery(queryss);
 
             int simId = -1;
 
@@ -139,7 +148,8 @@ public class SQL {
             preparedStmt.setInt(2, simId);
             preparedStmt.execute();
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -177,5 +187,32 @@ public class SQL {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(cal.getTime());
     }
+public  void selectVN(int simno)
+{
+    try {
+        String query = "SELECT NodeName FROM node WHERE node.SimId=" + simno + "";
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        int nodeId = -1;
+
+        while (rs.next()) {
+            nodeId = rs.getInt("NodeId");
+        }
+        String query1 = "SELECT VehicleId FROM vehicle WHERE vehicle.SimId="+simno+"";
+        Statement st1 = conn.createStatement();
+        ResultSet rs1 = st1.executeQuery(query1);
+
+        int vehicleId = -1;
+
+        while (rs1.next()) {
+            vehicleId = rs1.getInt("VehicleId");
+        }
+    }
+    catch (SQLException e)
+    {
+        e.printStackTrace();
+    }
+
+}
 
 }
