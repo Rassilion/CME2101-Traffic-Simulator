@@ -1,5 +1,7 @@
 package sim;
 
+import javafx.scene.control.Alert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,49 +68,70 @@ public class Simulation {
             vehicle.display();
         }
     }
+    public boolean finishCondiition(){
+        boolean flag=true;
+        for (Ambulance vehicle : ambulances) {
+            if (vehicle != null) {
+                if (vehicle.finish==false){
+                    flag=false;
+                }
+            }
+
+        }
+        return flag;
+    }
 
 
     public void simulate() {
 
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle == null) {
-                break;
+        if (finishCondiition()!=true) {
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle == null) {
+                    break;
+                }
+                //select next node
+                vehicle.heuristic2();
             }
-            //select next node
-            vehicle.heuristic2();
+
+            for (Ambulance vehicle : ambulances) {
+                if (vehicle == null) {
+                    break;
+                }
+
+
+                vehicle.move();
+                if (tick == vehicle.getStartTime()) {
+                    vehicle.setActive();
+
+                }
+
+            }
+
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle == null) {
+                    break;
+                }
+                // vehicle wait
+                if (vehicle.getNextNode().getVehiclecount() == 4) {
+                    vehicle.updateWait();
+                    continue;
+                }
+                vehicle.move();
+            }
+            display();
+            try {
+
+                writeTime(tick);
+            } catch (Exception e) {
+                //TODO print some information
+            }
         }
-
-        for (Ambulance vehicle : ambulances) {
-            if (vehicle == null) {
-                break;
-            }
-
-
-            vehicle.move();
-            if (tick == vehicle.getStartTime()) {
-                vehicle.setActive();
-
-            }
-
-        }
-
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle == null) {
-                break;
-            }
-            // vehicle wait
-            if (vehicle.getNextNode().getVehiclecount() == 4) {
-                vehicle.updateWait();
-                continue;
-            }
-            vehicle.move();
-        }
-        display();
-        try {
-
-          writeTime(tick);
-        } catch (Exception e) {
-            //TODO print some information
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Simulation Message");
+            alert.setHeaderText("Simulation Message");
+            alert.setContentText("Simulation Finished !!!!!!!!");
+            alert.showAndWait();
         }
 
     }

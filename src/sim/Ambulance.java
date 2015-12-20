@@ -13,6 +13,7 @@ public class Ambulance extends Vehicle {
 
 
     boolean active;
+    boolean finish;
 
     Stack<Node> a = new Stack<Node>();
     Stack<Node> b = new Stack<Node>();
@@ -24,6 +25,7 @@ public class Ambulance extends Vehicle {
         this.startTime = startingtime;
         this.setColor(Color.DARKRED);
         this.active=false;
+        this.finish=false;
     }
 
     public String getDestination() {
@@ -92,9 +94,15 @@ public class Ambulance extends Vehicle {
                }
            } else {
                delay--;
+               if (b==null){
+                   active=false;
+                   finish=true;
+                   currentNode.deleteVehicle(this);
+               }
                if (delay == 0) {
 
                    a = b;
+                   b=null;
                }
            }
        }
