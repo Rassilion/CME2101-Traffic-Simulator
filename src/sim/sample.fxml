@@ -114,6 +114,16 @@
                 </AnchorPane>
             </content>
         </Tab>
-      <Tab text="BackUp" />
+      <Tab text="BackUp">
+         <content>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Canvas height="548.0" width="634.0" />
+                  <DatePicker fx:id="datePicker" layoutX="679.0" layoutY="40.0" prefHeight="31.0" prefWidth="209.0" />
+                  <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" prefHeight="31.0" prefWidth="209.0" />
+                  <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" />
+               </children>
+            </Pane>
+         </content></Tab>
     </tabs>
 </TabPane>
