@@ -9,10 +9,11 @@ public class Ambulance extends Vehicle {
     String destination;
     int startTime;
     int delay;
-
+    int endTime;
 
 
     boolean active;
+    boolean finish;
 
     Stack<Node> a = new Stack<Node>();
     Stack<Node> b = new Stack<Node>();
@@ -23,7 +24,11 @@ public class Ambulance extends Vehicle {
         this.destination = destination;
         this.startTime = startingtime;
         this.setColor(Color.DARKRED);
+
         this.active=false;
+        this.finish=false;
+        this.endTime=startingtime;
+
     }
 
     public String getDestination() {
@@ -49,6 +54,7 @@ public class Ambulance extends Vehicle {
     public void setStartingPoint(String startingPoint) {
         this.startingPoint = startingPoint;
     }
+
     public boolean isActive() {
         return active;
     }
@@ -70,42 +76,43 @@ public class Ambulance extends Vehicle {
 
     @Override
     public void move() {
-       if (this.active) {
-
-
-           if (delay == 0) {
-               if (a.isEmpty())
-                   delay = 1;
-               else {
-                   this.nextNode = a.pop();
-                   if (nextNode.getVehiclecount() == 4) {
-                       for (int i = 0; i < 4; i++) {
-                           nextNode.vehicles[i].move();
-                       }
-                   }
-                   currentNode.deleteVehicle(this);
-                   previousNode = currentNode;
-                   currentNode = nextNode;
-                   wait = 0;
-                   currentNode.addVehicle(this);
-                   nextNode = null;
-               }
-           } else {
-               delay--;
-               if (delay == 0) {
-
-                   a = b;
-               }
-           }
-       }
+        if (this.active) {
+            if (delay == 0) {
+                if (a.isEmpty()) {
+                    delay = 1;
+                    if (b == null) {
+                        active = false;
+                        finish = true;
+                        currentNode.deleteVehicle(this);
+                    }
+                } else {
+                    this.nextNode = a.pop();
+                    if (nextNode.getVehiclecount() == 4) {
+                        for (int i = 0; i < 4; i++) {
+                            nextNode.vehicles[i].move();
+                        }
+                    }
+                    currentNode.deleteVehicle(this);
+                    previousNode = currentNode;
+                    currentNode = nextNode;
+                    wait = 0;
+                    currentNode.addVehicle(this);
+                    nextNode = null;
+                }
+            } else {
+                delay--;
+                if (delay == 0) {
+                    a = b;
+                    b = null;
+                }
+            }
+        }
     }
 
-    public void setShortestPath(Stack<Node> path,Stack<Node> path2) {
+    public void setShortestPath(Stack<Node> path, Stack<Node> path2) {
         a = path;
         currentNode = a.pop();
-        b=path2;
-
-
+        b = path2;
     }
 
 }

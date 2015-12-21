@@ -1,5 +1,7 @@
 package sim;
 
+import javafx.scene.control.Alert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,7 +46,7 @@ public class Simulation {
             mysql.Sim_Control();
             writeNode();
             writeVehicle();
-           writeTime(tick);
+            writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
@@ -67,9 +69,20 @@ public class Simulation {
         }
     }
 
+    public boolean finishCondition() {
+        boolean flag = true;
+        for (Ambulance vehicle : ambulances) {
+            if (vehicle != null) {
+                if (!vehicle.finish) {
+                    flag = false;
+                }
+            }
+        }
+        return flag;
+    }
+
 
     public void simulate() {
-
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
                 break;
@@ -85,8 +98,10 @@ public class Simulation {
 
 
             vehicle.move();
+            vehicle.endTime++;
             if (tick == vehicle.getStartTime()) {
                 vehicle.setActive();
+
 
             }
 
@@ -105,15 +120,14 @@ public class Simulation {
         }
         display();
         try {
-
-          writeTime(tick);
+            writeTime(tick);
         } catch (Exception e) {
             //TODO print some information
         }
-
     }
 
     public void getStatistics() {
+
 
     }
 
