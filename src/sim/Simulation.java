@@ -70,6 +70,17 @@ public class Simulation {
         return flag;
     }
 
+    public boolean wait(Vehicle vehicle) {
+        boolean flag = true;
+        if (vehicle.getNextNode().getVehiclecount() == 4) {
+            for (Vehicle v : vehicle.getNextNode().vehicles) {
+                if (!v.isMoved())
+                    flag = false;
+            }
+        }
+        return flag;
+    }
+
 
     public void simulate() {
         for (Vehicle vehicle : vehicles) {
@@ -84,42 +95,38 @@ public class Simulation {
             if (vehicle == null) {
                 break;
             }
-
-
             vehicle.move();
             vehicle.endTime++;
-
-        }
-
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle == null) {
-                break;
-            }
-            // vehicle wait
-            if (vehicle.getNextNode().getVehiclecount() == 4) {
-                vehicle.updateWait();
-                continue;
-            }
-            vehicle.move();
-        }
-
-        for (Ambulance vehicle : ambulances) {
-            if (vehicle == null) {
-                break;
-            }
             if (tick == vehicle.getStartTime()) {
                 vehicle.setActive();
-
-
             }
 
+        }
+        boolean flag = true;
+        while (flag) {
+            flag = false;
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle == null) {
+                    break;
+                }
+                vehicle.move();
+                if (!vehicle.isMoved()) {
+                    if (!wait(vehicle))
+                        flag = true;
+                    else
+                        vehicle.updateWait();
+                }
+            }
         }
         display();
         try {
             writeTime(tick);
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                ) {
             //TODO print some information
         }
+
     }
 
     public void getStatistics() {
@@ -166,25 +173,21 @@ public class Simulation {
     public void writeNode() {
 
         for (Node node : map.getNodes()) {
-            String e="0",s="0",w="0",n="0";
-            if(node.adjacent[0]!=null)
-            {
-                e=node.adjacent[0].name;
+            String e = "0", s = "0", w = "0", n = "0";
+            if (node.adjacent[0] != null) {
+                e = node.adjacent[0].name;
             }
-            if(node.adjacent[1]!=null)
-            {
-                s=node.adjacent[1].name;
+            if (node.adjacent[1] != null) {
+                s = node.adjacent[1].name;
             }
-            if(node.adjacent[2]!=null)
-            {
-                w=node.adjacent[2].name;
+            if (node.adjacent[2] != null) {
+                w = node.adjacent[2].name;
             }
-            if(node.adjacent[3]!=null)
-            {
-                n=node.adjacent[3].name;
+            if (node.adjacent[3] != null) {
+                n = node.adjacent[3].name;
             }
 
-            mysql.Node_Insert(node.name,e,s,w,n);
+            mysql.Node_Insert(node.name, e, s, w, n);
         }
 
     }

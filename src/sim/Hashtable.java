@@ -9,7 +9,7 @@ public class Hashtable {
 
 
     public Hashtable(ArrayList<Node> nodes) {
-        hashArray = new int[nodes.size()*2][2];
+        hashArray = new int[nodes.size()][2];
 
         for (Node node : nodes) {
             this.Addelement(node.name, 0);
@@ -41,7 +41,7 @@ public class Hashtable {
 
     public int Linearprobing(int key, int i) {
 
-        return hashFunction(key) + i;
+        return (hashFunction(key) +i )%hashArray.length;
 
     }
 

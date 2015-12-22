@@ -23,13 +23,16 @@ public class Node {
 
     }
 
-    public void addVehicle(Vehicle vehicle) {
+    public boolean addVehicle(Vehicle vehicle) {
+        boolean flag=false;
         for (int i = 0; i < vehicles.length; i++) {
             if (vehicles[i] == null) {
                 vehicles[i] = vehicle;
+                flag=true;
                 break;
             }
         }
+        return flag;
     }
 
     public void deleteVehicle(Vehicle vehicle) {
