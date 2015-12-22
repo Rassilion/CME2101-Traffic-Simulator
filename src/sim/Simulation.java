@@ -42,7 +42,6 @@ public class Simulation {
         display();
 
         try {
-
             mysql.Sim_Control();
             writeNode();
             writeVehicle();
@@ -88,7 +87,7 @@ public class Simulation {
                 break;
             }
             //select next node
-            vehicle.heuristic2();
+            vehicle.heuristic1();
         }
 
         for (Ambulance vehicle : ambulances) {

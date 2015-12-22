@@ -15,16 +15,15 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-// ambulanslari zamani gelince mapa ekle
 
 public class Controller implements Initializable {
     //javafx objects
     public TableView<Vehicle> carList;
     public TableView<Ambulance> ambulanceList;
     public TableColumn<Vehicle, String> carName;
-    public Canvas layer1;
-    public Canvas layer2;
-    public Canvas layer3;
+    public Canvas layer1;//node and road layer
+    public Canvas layer2;//direction layer
+    public Canvas layer3;//vehicle layer
     public Simulation s = new Simulation();
     public Button MoveButton;
     public Button backupButton;
@@ -42,7 +41,7 @@ public class Controller implements Initializable {
     public Image ds = new Image("/ds.png");
     public Image dw = new Image("/dw.png");
     public Image dn = new Image("/dn.png");
-
+    //table lists
     public ObservableList<Vehicle> car;
     public ObservableList<Ambulance> ambulance;
 
@@ -73,6 +72,7 @@ public class Controller implements Initializable {
 
     }
 
+    //Rewrite tables on screen
     public void updateTables() {
         carList.refresh();
         ambulanceList.refresh();
@@ -80,20 +80,29 @@ public class Controller implements Initializable {
 
     //Move button
     public void ButtonClick() {
-        if (s.finishCondition() == false) {
+        //if simulation not finished
+        if (!s.finishCondition()) {
+            //incrase tick
             s.setTick(s.getTick() + 1);
             timeArea.setText(String.valueOf(s.getTick()));
+            //move vehicles
             s.simulate();
+            //update screen
             drawVehicle();
             updateTables();
         }
-        if (s.finishCondition() == true) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Simulation Message");
-            alert.setHeaderText("Simulation Message");
-            alert.setContentText("Simulation Finished !!!!!!!!");
-            alert.showAndWait();
+        //else alert user
+        if (s.finishCondition()) {
+            alert();
         }
+    }
+
+    public void alert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Simulation Message");
+        alert.setHeaderText("Simulation Message");
+        alert.setContentText("Simulation Finished !!!!!!!!");
+        alert.showAndWait();
     }
 
     public void BackUpButton() {
@@ -107,6 +116,7 @@ public class Controller implements Initializable {
             ButtonClick();
     }
 
+    //draw map on screen
     public void drawMap() {
         GraphicsContext gc = layer1.getGraphicsContext2D();
         Font theFont = Font.font("Times New Roman", 10);
@@ -117,6 +127,7 @@ public class Controller implements Initializable {
         gc.fillText(s.getMap().getRoot().name, s.getMap().getRoot().x + node.getHeight(), s.getMap().getRoot().y);
         gc.drawImage(node, s.getMap().getRoot().x, s.getMap().getRoot().y);
         ArrayList<Node> nodes = s.getMap().getNodes();
+        //write nodes on screen until every node on screen
         boolean flag = true;
         while (flag) {
             flag = false;
@@ -130,6 +141,7 @@ public class Controller implements Initializable {
                 }
             }
         }
+        //draw roads
         for (Node node : nodes) {
             if (node.adjacent[0] != null) {
                 drawEast(node);
@@ -148,10 +160,9 @@ public class Controller implements Initializable {
 
     //draw vehicles
     public void drawVehicle() {
-        Random rnd = new Random();
-        int Randomcolor = 0;
         GraphicsContext gc = layer3.getGraphicsContext2D();
-        gc.clearRect(0, 0, 1000, 1000);
+        //clear canvas
+        gc.clearRect(0, 0, 6000, 5000);
         ArrayList<Node> nodes = s.getMap().getNodes();
 
         for (Node node : nodes) {
@@ -164,6 +175,7 @@ public class Controller implements Initializable {
                             continue;
                         }
                     }
+                    //choose position for vehicle
                     if (i == 1 || i == 3) {
                         xPoint = xPoint + 11;
                     }
@@ -173,7 +185,6 @@ public class Controller implements Initializable {
                     }
 
                     gc.setFill(node.vehicles[i].getColor()); //Chose color type
-
 
                     gc.fillRect(node.x + xPoint, node.y + yPoint, 7, 7);
                 }

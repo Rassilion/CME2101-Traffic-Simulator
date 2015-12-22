@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.shape.*?>
@@ -9,23 +10,33 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.Controller">
+<TabPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.Controller">
     <tabs>
         <Tab text="Main">
             <content>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <children>
-                        <Pane>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ScrollPane VBox.vgrow="SOMETIMES">
+                          <content>
+                            <AnchorPane maxHeight="5480.0" maxWidth="6340.0" minHeight="0.0" minWidth="0.0" prefHeight="5180.0" prefWidth="6340.0">
+                                 <children>
+                                            <Canvas fx:id="layer1" height="5480.0" width="6340.0" />
+                                            <Canvas fx:id="layer2" height="5480.0" width="6340.0" />
+                                            <Canvas fx:id="layer3" height="5480.0" width="6340.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ScrollPane>
+                                <Button fx:id="Movebutton" alignment="CENTER" mnemonicParsing="false" onAction="#ButtonClick" onKeyPressed="#ButtonKey" text="Move !!" />
+                     </children></VBox>
+                        <VBox alignment="CENTER_RIGHT" fillWidth="false" HBox.hgrow="SOMETIMES">
                             <children>
-                                <Canvas fx:id="layer1" height="548.0" width="634.0" />
-                                <Canvas fx:id="layer2" height="548.0" width="634.0" />
-                                <Canvas fx:id="layer3" height="548.0" width="634.0" />
-                                <Button fx:id="Movebutton" layoutX="279.0" layoutY="533.0" mnemonicParsing="false" onAction="#ButtonClick" onKeyPressed="#ButtonKey" text="Move !!" />
-                            </children>
-                        </Pane>
-                        <VBox alignment="TOP_RIGHT">
-                            <children>
-                                <HBox prefHeight="35.0" prefWidth="302.0">
+                                <HBox prefHeight="35.0" prefWidth="302.0" VBox.vgrow="ALWAYS">
                                     <children>
                                         <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="53.0" prefWidth="303.0" text="Time">
                                             <graphic>
@@ -34,7 +45,7 @@
                                         </Label>
                                     </children>
                                 </HBox>
-                                <TableView fx:id="carList">
+                                <TableView fx:id="carList" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="carName" editable="false" prefWidth="75.0" text="Name">
                                             <cellValueFactory>
@@ -63,7 +74,7 @@
                                         </TableColumn>
                                     </columns>
                                 </TableView>
-                                <TableView fx:id="ambulanceList">
+                                <TableView fx:id="ambulanceList" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="ambulanceName" editable="false" prefWidth="75.0" text="Name">
                                             <cellValueFactory>
@@ -93,6 +104,12 @@
                                     </columns>
                                 </TableView>
                             </children>
+                     <HBox.margin>
+                        <Insets left="360.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="-360.0" />
+                     </padding>
                         </VBox>
                     </children>
                 </HBox>
