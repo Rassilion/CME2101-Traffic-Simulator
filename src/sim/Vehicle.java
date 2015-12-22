@@ -16,7 +16,7 @@ public class Vehicle {
     protected int wait;
     private int sumWait;
     private Hashtable loop;
-    Color[] clr = {Color.AQUA, Color.BLACK, Color.AZURE, Color.SALMON, Color.BURLYWOOD, Color.DARKMAGENTA, Color.YELLOW, Color.NAVY, Color.GAINSBORO, Color.FIREBRICK};
+    Color[] clr = {Color.AQUA, Color.BLACK, Color.AZURE, Color.SALMON, Color.BURLYWOOD, Color.DARKMAGENTA, Color.YELLOW, Color.NAVY, Color.GAINSBORO, Color.FUCHSIA};
 
     public Node getPreviousNode() {
         return previousNode;
@@ -41,7 +41,7 @@ public class Vehicle {
         nextNode = null;
         previousNode = null;
         this.name = name;
-        this.color = clr[Integer.parseInt(name.substring(1))];
+        this.color = clr[Integer.parseInt(name.substring(1))%10];
         wait = 0;
         sumWait = 0;
     }

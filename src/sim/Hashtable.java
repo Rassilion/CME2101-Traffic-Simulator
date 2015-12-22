@@ -9,7 +9,7 @@ public class Hashtable {
 
 
     public Hashtable(ArrayList<Node> nodes) {
-        hashArray = new int[nodes.size()][2];
+        hashArray = new int[nodes.size()*2][2];
 
         for (Node node : nodes) {
             this.Addelement(node.name, 0);
@@ -17,8 +17,10 @@ public class Hashtable {
     }
 
     public int Key(String edge) {
-
-        int key = (int) edge.charAt(0);
+        int key = 0;
+        for (int i = 0; i < edge.length(); i++) {
+            key += (int) edge.charAt(i);
+        }
         return key;
     }
 

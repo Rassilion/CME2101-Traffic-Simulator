@@ -18,27 +18,17 @@ public class Simulation {
     private int tick;
 
     public Simulation() {
-        String path = "RoadMap.txt";
-        String path2 = "Vehicles.txt";
+        String path = "RoadMap3.txt";
+        String path2 = "Vehicles3.txt";
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
 
-        map.setAdjacentMatrix(readMap(path));
 
         readNode(path);
         readEdge(path);
         readVehicle(path2);
 
-        System.out.println("  A B C D E F G H I J K");
-        String str = "ABCDEFGHIJK";
-        for (int i = 0; i < 11; i++) {
-            System.out.print(str.charAt(i) + " ");
-            for (int j = 0; j < 11; j++) {
-                System.out.print(map.getAdjacentMatrix()[i][j] + " ");
-            }
-            System.out.println();
-        }
         display();
 
         try {
@@ -98,11 +88,6 @@ public class Simulation {
 
             vehicle.move();
             vehicle.endTime++;
-            if (tick == vehicle.getStartTime()) {
-                vehicle.setActive();
-
-
-            }
 
         }
 
@@ -116,6 +101,18 @@ public class Simulation {
                 continue;
             }
             vehicle.move();
+        }
+
+        for (Ambulance vehicle : ambulances) {
+            if (vehicle == null) {
+                break;
+            }
+            if (tick == vehicle.getStartTime()) {
+                vehicle.setActive();
+
+
+            }
+
         }
         display();
         try {

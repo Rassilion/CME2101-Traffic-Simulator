@@ -124,9 +124,6 @@ public class Controller implements Initializable {
         gc.setFont(theFont);
         s.getMap().getRoot().x = 20;
         s.getMap().getRoot().y = 20;
-        //draw root and name
-        gc.fillText(s.getMap().getRoot().name, s.getMap().getRoot().x + node.getHeight(), s.getMap().getRoot().y);
-        gc.drawImage(node, s.getMap().getRoot().x, s.getMap().getRoot().y);
         ArrayList<Node> nodes = s.getMap().getNodes();
         //write nodes on screen until every node on screen
         boolean flag = true;
@@ -134,13 +131,14 @@ public class Controller implements Initializable {
             flag = false;
             for (Node node : nodes) {
 
-                System.out.print(node.name);
+                System.out.print(node.name + " ");
                 drawNode(node);
                 if (node.x == 0 && node.y == 0) {
                     flag = true;
 
                 }
             }
+            System.out.println(" ");
         }
         //draw roads
         for (Node node : nodes) {
@@ -196,41 +194,50 @@ public class Controller implements Initializable {
     //Draw nodes and set Node position
     public void drawNode(Node node) {
         GraphicsContext gc = layer1.getGraphicsContext2D();
-        if (node.x != 0 && node.y != 0) {
-            if (node.adjacent[0] != null) {
-                if (node.adjacent[0].x == 0 && node.adjacent[0].y == 0) {
-                    node.adjacent[0].x = node.x + (road.getWidth() + this.node.getHeight());
-                    node.adjacent[0].y = node.y;
-                    gc.drawImage(this.node, node.adjacent[0].x, node.adjacent[0].y);
-                    gc.fillText(node.adjacent[0].name, node.adjacent[0].x + this.node.getHeight(), node.adjacent[0].y);
-                }
+        if (node.adjacent[0] != null) {
+            if (node.adjacent[0].x == 0 && node.adjacent[0].y == 0) {
+                node.adjacent[0].x = node.x + (road.getWidth() + this.node.getHeight());
+                node.adjacent[0].y = node.y;
+                gc.drawImage(this.node, node.adjacent[0].x, node.adjacent[0].y);
+                gc.fillText(node.adjacent[0].name, node.adjacent[0].x + this.node.getHeight(), node.adjacent[0].y);
+            } else {
+                node.x = node.adjacent[0].x - (road.getWidth() + this.node.getHeight());
+                node.y = node.adjacent[0].y;
+                gc.drawImage(this.node, node.x, node.y);
+                gc.fillText(node.name, node.x + this.node.getHeight(), node.y);
             }
-            if (node.adjacent[1] != null) {
-                if (node.adjacent[1].x == 0 && node.adjacent[1].y == 0) {
-                    node.adjacent[1].x = node.x;
-                    node.adjacent[1].y = node.y + (road.getWidth() + this.node.getHeight());
-                    gc.drawImage(this.node, node.adjacent[1].x, node.adjacent[1].y);
-                    gc.fillText(node.adjacent[1].name, node.adjacent[1].x + this.node.getHeight(), node.adjacent[1].y);
-                }
+        }
+        if (node.adjacent[1] != null) {
+            if (node.adjacent[1].x == 0 && node.adjacent[1].y == 0) {
+                node.adjacent[1].x = node.x;
+                node.adjacent[1].y = node.y + (road.getWidth() + this.node.getHeight());
+                gc.drawImage(this.node, node.adjacent[1].x, node.adjacent[1].y);
+                gc.fillText(node.adjacent[1].name, node.adjacent[1].x + this.node.getHeight(), node.adjacent[1].y);
             }
-            if (node.adjacent[2] != null) {
-                if (node.adjacent[2].x == 0 && node.adjacent[2].y == 0) {
-                    node.adjacent[2].x = node.x - (road.getWidth() + this.node.getHeight());
-                    node.adjacent[2].y = node.y;
-                    gc.drawImage(this.node, node.adjacent[2].x, node.adjacent[2].y);
-                    gc.fillText(node.adjacent[2].name, node.adjacent[2].x + this.node.getHeight(), node.adjacent[2].y);
-                }
+        }
+        if (node.adjacent[2] != null) {
+            if (node.adjacent[2].x == 0 && node.adjacent[2].y == 0) {
+                node.adjacent[2].x = node.x - (road.getWidth() + this.node.getHeight());
+                node.adjacent[2].y = node.y;
+                gc.drawImage(this.node, node.adjacent[2].x, node.adjacent[2].y);
+                gc.fillText(node.adjacent[2].name, node.adjacent[2].x + this.node.getHeight(), node.adjacent[2].y);
             }
-            if (node.adjacent[3] != null) {
-                if (node.adjacent[3].x == 0 && node.adjacent[3].y == 0) {
-                    node.adjacent[3].x = node.x;
-                    node.adjacent[3].y = node.y - (road.getWidth() + this.node.getHeight());
-                    gc.drawImage(this.node, node.adjacent[3].x, node.adjacent[3].y);
-                    gc.fillText(node.adjacent[3].name, node.adjacent[3].x + this.node.getHeight(), node.adjacent[3].y);
-                }
+        }
+        if (node.adjacent[3] != null) {
+            if (node.adjacent[3].x == 0 && node.adjacent[3].y == 0) {
+                node.adjacent[3].x = node.x;
+                node.adjacent[3].y = node.y - (road.getWidth() + this.node.getHeight());
+                gc.drawImage(this.node, node.adjacent[3].x, node.adjacent[3].y);
+                gc.fillText(node.adjacent[3].name, node.adjacent[3].x + this.node.getHeight(), node.adjacent[3].y);
+            } else {
+                node.x = node.adjacent[3].x;
+                node.y = node.adjacent[3].y + (road.getWidth() + this.node.getHeight());
+                gc.drawImage(this.node, node.x, node.y);
+                gc.fillText(node.name, node.x + this.node.getHeight(), node.y);
             }
         }
     }
+
 
     //Edge and direction draw
     public void drawSouth(Node from) {
