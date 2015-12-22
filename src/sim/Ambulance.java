@@ -108,6 +108,8 @@ public class Ambulance extends Vehicle {
                     wait = 0;
                     currentNode.addVehicle(this);
                     nextNode = null;
+                    this.endTime++;
+                    currentNode.wait++;
                 }
             } else {
                 delay--;

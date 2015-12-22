@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -31,6 +33,9 @@ public class Controller implements Initializable {
     public TextField timeArea;
     public DatePicker datePicker;
     public Canvas backUpCanvas;
+    public BarChart barChart1;
+    public BarChart barChart2;
+    public BarChart barChart3;
 
 
     //images
@@ -70,13 +75,42 @@ public class Controller implements Initializable {
         ambulanceList.setItems(ambulance);
         drawMap();
         drawVehicle();
-
+        updateChart();
     }
 
     //Rewrite tables on screen
     public void updateTables() {
         carList.refresh();
         ambulanceList.refresh();
+    }
+
+    public void updateChart() {
+        barChart1.getData().clear();
+        XYChart.Series series1 = new XYChart.Series();
+        for (int i = 0; i < s.getVehicles().length; i++) {
+            if (s.getVehicles()[i] != null) {
+                series1.getData().add(new XYChart.Data(s.getVehicles()[i].name, s.getVehicles()[i].getSumWait()));
+            }
+        }
+        barChart1.getData().addAll(series1);
+
+        XYChart.Series series2 = new XYChart.Series();
+        barChart2.getData().clear();
+        for (int i = 0; i < s.getAmbulances().length; i++) {
+            if (s.getAmbulances()[i] != null) {
+                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name, (int) s.getAmbulances()[i].endTime - (int) s.getAmbulances()[i].startTime));
+            }
+        }
+        barChart2.getData().addAll(series2);
+
+        XYChart.Series series3 = new XYChart.Series();
+        barChart3.getData().clear();
+        for (Node node : s.getMap().getNodes()) {
+            series3.getData().add(new XYChart.Data(node.name, node.wait));
+        }
+        barChart3.getData().addAll(series3);
+
+
     }
 
     //Move button
@@ -91,6 +125,7 @@ public class Controller implements Initializable {
             //update screen
             drawVehicle();
             updateTables();
+            updateChart();
         }
         //else alert user
         if (s.finishCondition()) {

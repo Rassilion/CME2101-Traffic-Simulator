@@ -96,7 +96,7 @@ public class Simulation {
                 break;
             }
             vehicle.move();
-            vehicle.endTime++;
+
             if (tick == vehicle.getStartTime()) {
                 vehicle.setActive();
             }

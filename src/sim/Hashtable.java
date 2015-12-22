@@ -41,7 +41,7 @@ public class Hashtable {
 
     public int Linearprobing(int key, int i) {
 
-        return (hashFunction(key) +i )%hashArray.length;
+        return (hashFunction(key) + i) % hashArray.length;
 
     }
 

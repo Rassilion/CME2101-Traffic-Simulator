@@ -120,9 +120,10 @@ public class Vehicle {
                 previousNode = currentNode;
                 currentNode = nextNode;
                 wait = 0;
+                currentNode.wait++;
             } else {//swap
-                for (Vehicle v:nextNode.vehicles){
-                    if (currentNode==v.nextNode&&!(v instanceof Ambulance)){
+                for (Vehicle v : nextNode.vehicles) {
+                    if (currentNode == v.nextNode && !(v instanceof Ambulance)) {
                         swap(v);
                         break;
                     }
@@ -139,12 +140,14 @@ public class Vehicle {
         previousNode = currentNode;
         currentNode = nextNode;
         wait = 0;
+        currentNode.wait++;
 
         v.moved = true;
         v.previousNode = v.currentNode;
         v.currentNode = v.nextNode;
         v.wait = 0;
         v.currentNode.addVehicle(v);
+        v.currentNode.wait++;
 
 
     }
@@ -178,12 +181,17 @@ public class Vehicle {
 
         nextNode = temp;
 
+        int a = loop.getElement(currentNode.name);
+        loop.setElement(currentNode.name, (a + 1));
+
+
     }
 
     public void updateWait() {
         moved = true;
         wait++;
         sumWait++;
+        currentNode.wait += 1;
 
     }
 

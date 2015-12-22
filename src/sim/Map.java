@@ -73,9 +73,8 @@ public class Map {
             n = (q.peek());
             for (int i = 0; i < 4; i++) {
 
-                if (n.adjacent[i] != null )
-                {
-                    if( visited[n.adjacent[i].id] != true) {
+                if (n.adjacent[i] != null) {
+                    if (visited[n.adjacent[i].id] != true) {
                         q.add(n.adjacent[i]);
                         previous[n.adjacent[i].id] = n;
                         visited[n.adjacent[i].id] = true;
@@ -99,8 +98,6 @@ public class Map {
         path.push(startPoint);
         return path;
     }
-
-
 
 
 }
