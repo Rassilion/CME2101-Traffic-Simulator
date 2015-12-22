@@ -1,5 +1,7 @@
 package sim;
 
+import sun.util.locale.StringTokenIterator;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 public class SQL {
 
     Connection conn;
@@ -65,12 +68,16 @@ public class SQL {
 
     }
 
-    public void Node_Insert(String NName) {
+    public void Node_Insert(String NName, String NodeE, String NodeS, String NodeW, String NodeN) {
         try {
-            String query = " Insert Into node (NodeName,SimId) Values (?,?)";
+            String query = " Insert Into node (NodeName,SimId,East,South,West,North) Values (?,?,?,?,?,?)";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, NName);
             preparedStmt.setInt(2, simno);
+            preparedStmt.setString(3, NodeE);
+            preparedStmt.setString(4, NodeS);
+            preparedStmt.setString(5, NodeW);
+            preparedStmt.setString(6, NodeN);
             preparedStmt.execute();
 
         } catch (SQLException e) {
@@ -88,7 +95,7 @@ public class SQL {
             while (rs.next()) {
                 nodeId = rs.getInt("NodeId");
             }
-            String query1 = "SELECT VehicleId FROM vehicle WHERE vehicle.VName=" + "'" + vehicleName + "'";
+            String query1 = "SELECT VehicleId FROM vehicle WHERE vehicle.VName=" + "'" + vehicleName + "' and vehicle.SimId=" + simno + "";
             Statement st1 = conn.createStatement();
             ResultSet rs1 = st1.executeQuery(query1);
 
@@ -116,6 +123,9 @@ public class SQL {
                 timeId = rst.getInt("TimeId");
             }
 
+//SELECT * from date
+            //LEFT JOIN simulation on simulation.SimId=date.SimId
+            // where date.Date='20-12-2015'
 
             String querys = " Insert Into simulation (SimNo,TimeId) Values (?,?)";
             preparedStmt = conn.prepareStatement(querys);
@@ -125,7 +135,7 @@ public class SQL {
 
             String queryss = "SELECT SimId FROM simulation ORDER BY SimId DESC LIMIT 1";
             Statement stss = conn.createStatement();
-            ResultSet rsss = stt.executeQuery(queryss);
+            ResultSet rsss = stss.executeQuery(queryss);
 
             int simId = -1;
 
@@ -135,7 +145,7 @@ public class SQL {
             String Date = now("dd-MM-yyyy");
             String queryd = " Insert Into date (Date,SimId) Values (?,?)";
             preparedStmt = conn.prepareStatement(queryd);
-            preparedStmt.setString(1,Date);
+            preparedStmt.setString(1, Date);
             preparedStmt.setInt(2, simId);
             preparedStmt.execute();
 
@@ -171,11 +181,68 @@ public class SQL {
         }
 
     }
-    public  String now(String dateFormat)
-    {
+
+    public String now(String dateFormat) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(cal.getTime());
     }
 
+    public void selectN(int simno) {
+        try {
+            String query = "SELECT * FROM node WHERE node.SimId=" + simno + "";//node ve komşuluklarını çekiyoruz haritaya nodeları yerleştirmek için
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            int nodeId = -1;
+
+            while (rs.next()) {
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void selectSim(String date)
+    {
+        try {//dateda yapılan simuasynlar gelıyor
+            String query = "SELECT simulation.SimNo from date LEFT JOIN simulation on simulation.SimId=date.SimId WHERE date.Date='"+date+"'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            int nodeId = -1;
+
+            while (rs.next()) {
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public  void selectTime(int simno )
+    {
+ //sim yapılan timelar geliyor
+
+        try {
+            String query = " SELECT time.Time from simulation LEFT JOIN time on time.TimeId=simulation.TimeId WHERE simulation.SimNo="+simno+"";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            int nodeId = -1;
+
+            while (rs.next()) {
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //SELECT vehicle.VType,vehicle.VName,node.NodeName from date LEFT JOIN simulation on simulation.SimId=date.SimId LEFT JOIN time on time.TimeId=simulation.TimeId LEFT JOIN vehicle on vehicle.VehicleId=time.VehicleId LEFT join node on node.NodeId=time.NodeId WHERE date.Date="21-12-2015" and simulation.SimNo=4 and time.Time=0
+// hangi nodda hangi aracın bulunduğu seçilen zamanda ona gore sadece ekrana yazdırma yapılacak
 }

@@ -24,6 +24,7 @@ public class Controller implements Initializable {
     public Canvas layer1;//node and road layer
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
+    public Canvas canvas1;
     public Simulation s = new Simulation();
     public Button MoveButton;
     public Button backupButton;
