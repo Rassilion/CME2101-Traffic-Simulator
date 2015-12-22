@@ -2,7 +2,12 @@ package sim;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
@@ -11,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,7 +34,7 @@ public class Controller implements Initializable {
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
     public Canvas canvas1;
-    public Simulation s = new Simulation();
+    static public Simulation s = new Simulation("RoadMap.txt","Vehicles.txt");
     public Button MoveButton;
     public Button backupButton;
     public TextField timeArea;
@@ -54,6 +61,10 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        start();
+    }
+
+    public void start() {
         //Table list
         car = FXCollections.observableArrayList();
         for (Vehicle vehicle : s.getVehicles()) {
@@ -111,6 +122,19 @@ public class Controller implements Initializable {
         barChart3.getData().addAll(series3);
 
 
+    }
+
+    public void newButtonClick() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+            stage.setOnCloseRequest(we -> start());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //Move button

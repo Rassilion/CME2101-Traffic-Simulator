@@ -17,9 +17,7 @@ public class Simulation {
     private Map map;
     private int tick;
 
-    public Simulation() {
-        String path = "RoadMap3.txt";
-        String path2 = "Vehicles3.txt";
+    public Simulation(String path,String path2) {
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
