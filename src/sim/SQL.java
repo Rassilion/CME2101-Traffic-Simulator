@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SQL {
@@ -142,7 +143,7 @@ public class SQL {
             while (rsss.next()) {
                 simId = rsss.getInt("SimId");
             }
-            String Date = now("dd-MM-yyyy");
+            String Date = now("yyyy-MM-dd");
             String queryd = " Insert Into date (Date,SimId) Values (?,?)";
             preparedStmt = conn.prepareStatement(queryd);
             preparedStmt.setString(1, Date);
@@ -188,14 +189,31 @@ public class SQL {
         return sdf.format(cal.getTime());
     }
 
-    public void selectN(int simno) {
+    public void selectN(int simno, Simulation s) {
         try {
+
             String query = "SELECT * FROM node WHERE node.SimId=" + simno + "";//node ve komşuluklarını çekiyoruz haritaya nodeları yerleştirmek için
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int nodeId = -1;
-
+            s.setMap(new Map());
             while (rs.next()) {
+                s.getMap().addNode(new Node(rs.getString("NodeName")));
+            }
+            ResultSet rs1 = st.executeQuery(query);
+            while (rs1.next()) {
+                if (rs1.getString("East") != "0") {
+                    s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("East")), 0);
+                }
+                if (rs1.getString("South") != "0") {
+                    s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("South")), 1);
+                }
+                if (rs1.getString("West") != "0") {
+                    s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("West")), 2);
+                }
+                if (rs1.getString("North") != "0") {
+                    s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("North")), 3);
+                }
 
             }
 
@@ -205,15 +223,23 @@ public class SQL {
         }
 
     }
-    public void selectSim(String date)
-    {
+
+    public ArrayList<String> selectSim(String date) {
+        ArrayList<String> sim = new ArrayList<>();
         try {//dateda yapılan simuasynlar gelıyor
-            String query = "SELECT simulation.SimNo from date LEFT JOIN simulation on simulation.SimId=date.SimId WHERE date.Date='"+date+"'";
+            String query = "SELECT simulation.SimNo from date LEFT JOIN simulation on simulation.SimId=date.SimId WHERE date.Date='" + date + "'";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int nodeId = -1;
-
+            String b = "";
             while (rs.next()) {
+
+                String k = Integer.toString(rs.getInt("SimNo"));
+
+                if(!b.equals(k)) {
+                    b=k;
+                    sim.add(k);
+                }
 
             }
 
@@ -221,27 +247,31 @@ public class SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return sim;
     }
-    public  void selectTime(int simno )
-    {
- //sim yapılan timelar geliyor
 
+    public ArrayList<String> selectTime(int simno) {
+        //sim yapılan timelar geliyor
+        ArrayList<String> time = new ArrayList<>();
         try {
-            String query = " SELECT time.Time from simulation LEFT JOIN time on time.TimeId=simulation.TimeId WHERE simulation.SimNo="+simno+"";
+            String query = " SELECT time.Time from simulation LEFT JOIN time on time.TimeId=simulation.TimeId WHERE simulation.SimNo=" + simno + "";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int nodeId = -1;
-
+String b="";
             while (rs.next()) {
-
+                String k=Integer.toString(rs.getInt("Time"));
+                if(!b.equals(k)) {
+                    b=k;
+                    time.add(k);
+                }
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return time;
     }
     //SELECT vehicle.VType,vehicle.VName,node.NodeName from date LEFT JOIN simulation on simulation.SimId=date.SimId LEFT JOIN time on time.TimeId=simulation.TimeId LEFT JOIN vehicle on vehicle.VehicleId=time.VehicleId LEFT join node on node.NodeId=time.NodeId WHERE date.Date="21-12-2015" and simulation.SimNo=4 and time.Time=0
 // hangi nodda hangi aracın bulunduğu seçilen zamanda ona gore sadece ekrana yazdırma yapılacak
