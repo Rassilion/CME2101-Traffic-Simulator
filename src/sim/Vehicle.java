@@ -35,6 +35,11 @@ public class Vehicle {
         return name;
     }
 
+    public Vehicle(String name){
+        this.name = name;
+        this.color = clr[Integer.parseInt(name.substring(1)) % 10];
+    }
+
     public Vehicle(Node startingPoint, String name, Hashtable ht) {
         this.startingPoint = startingPoint.name;
         this.currentNode = startingPoint;
@@ -47,6 +52,7 @@ public class Vehicle {
         sumWait = 0;
         moved = false;
     }
+
 
     public boolean isMoved() {
         return moved;

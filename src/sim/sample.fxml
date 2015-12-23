@@ -21,11 +21,11 @@
                             <children>
                                 <ScrollPane VBox.vgrow="SOMETIMES">
                                     <content>
-                                        <AnchorPane maxHeight="5480.0" maxWidth="6340.0" minHeight="0.0" minWidth="0.0" prefHeight="5180.0" prefWidth="6340.0">
+                                        <AnchorPane maxHeight="2000.0" maxWidth="2000.0" minHeight="0.0" minWidth="0.0" prefHeight="5180.0" prefWidth="6340.0">
                                             <children>
-                                                <Canvas fx:id="layer1" height="5480.0" width="6340.0" />
-                                                <Canvas fx:id="layer2" height="5480.0" width="6340.0" />
-                                                <Canvas fx:id="layer3" height="5480.0" width="6340.0" />
+                                                <Canvas fx:id="layer1" height="2000.0" width="2000.0" />
+                                                <Canvas fx:id="layer2" height="2000.0" width="2000.0" />
+                                                <Canvas fx:id="layer3" height="2000.0" width="2000.0" />
                                             </children>
                                         </AnchorPane>
                                     </content>
@@ -182,11 +182,11 @@
                             <children>
                                 <ScrollPane VBox.vgrow="SOMETIMES">
                                     <content>
-                                        <AnchorPane maxHeight="5480.0" maxWidth="6340.0" minHeight="0.0" minWidth="0.0" prefHeight="5180.0" prefWidth="6340.0">
+                                        <AnchorPane maxHeight="1000.0" maxWidth="1000.0" minHeight="0.0" minWidth="0.0" prefHeight="5180.0" prefWidth="6340.0">
                                             <children>
-                                                <Canvas fx:id="layer4" height="5480.0" width="6340.0" />
-                                                <Canvas fx:id="layer5" height="5480.0" width="6340.0" />
-                                                <Canvas fx:id="layer6" height="5480.0" width="6340.0" />
+                                                <Canvas fx:id="layer4" height="1000.0" width="1000.0" />
+                                                <Canvas fx:id="layer5" height="1000.0" width="1000.0" />
+                                                <Canvas fx:id="layer6" height="1000.0" width="1000.0" />
                                             </children>
                                         </AnchorPane>
                                     </content>

@@ -69,7 +69,7 @@ public class SQL {
 
     }
 
-    public void Node_Insert(String NName, String NodeE, String NodeS, String NodeW, String NodeN,double x,double y) {
+    public void Node_Insert(String NName, String NodeE, String NodeS, String NodeW, String NodeN, double x, double y) {
         try {
             String query = " Insert Into node (NodeName,SimId,East,South,West,North,X,Y) Values (?,?,?,?,?,?,?,?)";
             preparedStmt = conn.prepareStatement(query);
@@ -79,8 +79,8 @@ public class SQL {
             preparedStmt.setString(4, NodeS);
             preparedStmt.setString(5, NodeW);
             preparedStmt.setString(6, NodeN);
-            preparedStmt.setDouble(7,x);
-            preparedStmt.setDouble(8,y);
+            preparedStmt.setDouble(7, x);
+            preparedStmt.setDouble(8, y);
             preparedStmt.execute();
 
         } catch (SQLException e) {
@@ -160,23 +160,27 @@ public class SQL {
     }
 
 
-    public void Time_Select(int time) {
+    public void Time_Select(String date, String sim, String time, Simulation s) {
         try {
-            String query1 = "SELECT NodeName,VType,VName from time "
-                    + "left join node on node.NodeId=time.NodeId "
-                    + "left join vehicle on vehicle.VehicleId=time.VehicleId "
-                    + "where Time.Time=" + time + "";
+            int simu = Integer.parseInt(sim);
+            int tim = Integer.parseInt(time);
+            String query1 = "SELECT vehicle.VType,vehicle.VName,node.NodeName from date "
+                    + "LEFT JOIN simulation on simulation.SimId=date.SimId "
+                    + "LEFT JOIN time on time.TimeId=simulation.TimeId "
+                    + "LEFT JOIN vehicle on vehicle.VehicleId=time.VehicleId "
+                    + "LEFT join node on node.NodeId=time.NodeId "
+                    + "WHERE date.Date='" + date + "' and node.SimId=" + simu + " and time.Time=" + tim + "";
             Statement st = conn.createStatement();
 
             ResultSet rs = st.executeQuery(query1);
 
             while (rs.next()) {
-
-                String node_name = rs.getString("NodeName");
-                String vtype = rs.getString("VType");
-                String vname = rs.getString("VName");
-                System.out.println(node_name + " " + vtype + " " + vname);
-
+                if (rs.getString("VType").equals("Car")) {
+                    s.getMap().getNode(rs.getString("NodeName")).addVehicle(new Vehicle(rs.getString("VName")));
+                }
+                if (rs.getString("VType").equals("Ambulance")) {
+                    s.getMap().getNode(rs.getString("NodeName")).addVehicle(new Ambulance(rs.getString("VName")));
+                }
 
             }
         } catch (SQLException e) {
@@ -197,23 +201,27 @@ public class SQL {
             String query = "SELECT * FROM node WHERE node.SimId=" + simno + "";//node ve komşuluklarını çekiyoruz haritaya nodeları yerleştirmek için
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            int nodeId = -1;
+
             s.setMap(new Map());
+
             while (rs.next()) {
-                s.getMap().addNode(new Node(rs.getString("NodeName")));
+                Node temp=new Node(rs.getString("NodeName"));
+                temp.x=rs.getInt("X");
+                temp.y=rs.getInt("Y");
+                s.getMap().addNode(temp);
             }
             ResultSet rs1 = st.executeQuery(query);
             while (rs1.next()) {
-                if (rs1.getString("East") != "0") {
+                if (!rs1.getString("East").equals("0")) {
                     s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("East")), 0);
                 }
-                if (rs1.getString("South") != "0") {
+                if (!rs1.getString("South").equals("0")) {
                     s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("South")), 1);
                 }
-                if (rs1.getString("West") != "0") {
+                if (!rs1.getString("West").equals("0")) {
                     s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("West")), 2);
                 }
-                if (rs1.getString("North") != "0") {
+                if (!rs1.getString("North").equals("0")) {
                     s.getMap().addEdge(s.getMap().getNode(rs1.getString("NodeName")), s.getMap().getNode(rs1.getString("North")), 3);
                 }
 
@@ -238,8 +246,8 @@ public class SQL {
 
                 String k = Integer.toString(rs.getInt("SimNo"));
 
-                if(!b.equals(k)) {
-                    b=k;
+                if (!b.equals(k)) {
+                    b = k;
                     sim.add(k);
                 }
 
@@ -260,11 +268,11 @@ public class SQL {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int nodeId = -1;
-String b="";
+            String b = "";
             while (rs.next()) {
-                String k=Integer.toString(rs.getInt("Time"));
-                if(!b.equals(k)) {
-                    b=k;
+                String k = Integer.toString(rs.getInt("Time"));
+                if (!b.equals(k)) {
+                    b = k;
                     time.add(k);
                 }
             }
@@ -275,6 +283,5 @@ String b="";
         }
         return time;
     }
-    //SELECT vehicle.VType,vehicle.VName,node.NodeName from date LEFT JOIN simulation on simulation.SimId=date.SimId LEFT JOIN time on time.TimeId=simulation.TimeId LEFT JOIN vehicle on vehicle.VehicleId=time.VehicleId LEFT join node on node.NodeId=time.NodeId WHERE date.Date="21-12-2015" and simulation.SimNo=4 and time.Time=0
-// hangi nodda hangi aracın bulunduğu seçilen zamanda ona gore sadece ekrana yazdırma yapılacak
+
 }

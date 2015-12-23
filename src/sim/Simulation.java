@@ -31,6 +31,7 @@ public class Simulation {
 
 
     public Simulation(String Mappath, String Vehiclepath) {
+        Node.uniqueId = 0;
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
@@ -47,8 +48,9 @@ public class Simulation {
     }
 
     public Simulation(boolean flag) {
-        vehicles = new Vehicle[100];
-        ambulances = new Ambulance[100];
+        Node.uniqueId = 0;
+        vehicles = new Vehicle[2];
+        ambulances = new Ambulance[2];
         map = new Map();
     }
 public void initSQL()
