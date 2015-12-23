@@ -235,7 +235,7 @@
                            <VBox.margin>
                               <Insets bottom="50.0" />
                            </VBox.margin></Button>
-                        <TableView id="tableBack" prefHeight="400.0" prefWidth="400.0">
+                        <TableView fx:id="tableBack" prefHeight="400.0" prefWidth="400.0">
                           <columns>
                             <TableColumn id="btableType" prefWidth="110.0" text="Vehicle Type" />
                             <TableColumn id="btableName" prefWidth="113.0" text="Vehicle Name" />

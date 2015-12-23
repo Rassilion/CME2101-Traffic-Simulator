@@ -33,7 +33,7 @@ public class Controller implements Initializable {
     public Canvas layer1;//node and road layer
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
-    private TableView tableBack;
+    public TableView tableBack;
 
     public Canvas layer4;//node and road layer
     public Canvas layer5;//direction layer
