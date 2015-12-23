@@ -39,7 +39,7 @@ public class SQL {
     public void Vehicle_Insert(String VType, String VName) {
         try {
 
-            String query = "Insert Into vehicle (VType,VName,SimId) Values (?, ?,?)";
+            String query = "INSERT INTO vehicle (VType,VName,SimId) VALUES (?, ?,?)";
 
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, VType);
@@ -72,7 +72,7 @@ public class SQL {
 
     public void Node_Insert(String NName, String NodeE, String NodeS, String NodeW, String NodeN, double x, double y) {
         try {
-            String query = " Insert Into node (NodeName,SimId,East,South,West,North,X,Y) Values (?,?,?,?,?,?,?,?)";
+            String query = " INSERT INTO node (NodeName,SimId,East,South,West,North,X,Y) VALUES (?,?,?,?,?,?,?,?)";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, NName);
             preparedStmt.setInt(2, simno);
@@ -109,7 +109,7 @@ public class SQL {
                 vehicleId = rs1.getInt("VehicleId");
             }
 
-            String query2 = " Insert Into time (Time,NodeId,VehicleId) Values (?,?,?)";
+            String query2 = " INSERT INTO time (Time,NodeId,VehicleId) VALUES (?,?,?)";
 
             preparedStmt = conn.prepareStatement(query2);
             preparedStmt.setInt(1, time);
@@ -131,7 +131,7 @@ public class SQL {
             //LEFT JOIN simulation on simulation.SimId=date.SimId
             // where date.Date='20-12-2015'
 
-            String querys = " Insert Into simulation (SimNo,TimeId) Values (?,?)";
+            String querys = " INSERT INTO simulation (SimNo,TimeId) VALUES (?,?)";
             preparedStmt = conn.prepareStatement(querys);
             preparedStmt.setInt(1, simno);
             preparedStmt.setInt(2, timeId);
@@ -147,7 +147,7 @@ public class SQL {
                 simId = rsss.getInt("SimId");
             }
             String Date = now("yyyy-MM-dd");
-            String queryd = " Insert Into date (Date,SimId) Values (?,?)";
+            String queryd = " INSERT INTO date (Date,SimId) VALUES (?,?)";
             preparedStmt = conn.prepareStatement(queryd);
             preparedStmt.setString(1, Date);
             preparedStmt.setInt(2, simId);
@@ -161,8 +161,8 @@ public class SQL {
     }
 
 
-    public String[][] Time_Select(String date, String sim, String time, Simulation s) {
-        String[][] arr=new String[50][3];
+    public ArrayList<BackEnd> Time_Select(String date, String sim, String time, Simulation s) {
+        ArrayList<BackEnd> back = new ArrayList<>();
         try {
             int simu = Integer.parseInt(sim);
             int tim = Integer.parseInt(time);
@@ -176,13 +176,10 @@ public class SQL {
 
             ResultSet rs = st.executeQuery(query1);
 
-           int j=0;
+
             while (rs.next()) {
 
-                arr[j][0]=rs.getString("VType");
-                arr[j][1]=rs.getString("VName");
-                arr[j][2]=rs.getString("NodeName");
-                j++;
+                back.add(new BackEnd(rs.getString("VType"), rs.getString("VName"), rs.getString("NodeName")));
                 if (rs.getString("VType").equals("Car")) {
                     s.getMap().getNode(rs.getString("NodeName")).addVehicle(new Vehicle(rs.getString("VName")));
                 }
@@ -194,7 +191,7 @@ public class SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-return arr;
+        return back;
     }
 
     public String now(String dateFormat) {
@@ -213,9 +210,9 @@ return arr;
             s.setMap(new Map());
 
             while (rs.next()) {
-                Node temp=new Node(rs.getString("NodeName"));
-                temp.x=rs.getInt("X");
-                temp.y=rs.getInt("Y");
+                Node temp = new Node(rs.getString("NodeName"));
+                temp.x = rs.getInt("X");
+                temp.y = rs.getInt("Y");
                 s.getMap().addNode(temp);
             }
             ResultSet rs1 = st.executeQuery(query);
@@ -293,3 +290,4 @@ return arr;
     }
 
 }
+

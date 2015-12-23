@@ -32,10 +32,11 @@ public class Controller implements Initializable {
     public TableView<Vehicle> carList;
     public TableView<Ambulance> ambulanceList;
     public TableColumn<Vehicle, String> carName;
+    public TableView<BackEnd> tableBack;
     public Canvas layer1;//node and road layer
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
-    public TableView tableBack;
+
 
     public Canvas layer4;//node and road layer
     public Canvas layer5;//direction layer
@@ -75,6 +76,7 @@ public class Controller implements Initializable {
     //table lists
     public ObservableList<Vehicle> car;
     public ObservableList<Ambulance> ambulance;
+    public ObservableList<BackEnd> backE;
 
 
     @Override
@@ -224,8 +226,9 @@ public class Controller implements Initializable {
         s = new Simulation(true);
         System.out.println(Integer.parseInt(simulationCombo.getValue().toString()));
         s2.getMysql().selectN(Integer.parseInt(simulationCombo.getValue().toString()), s2);
-       String[][] a= s2.getMysql().Time_Select(datePicker.getValue().toString(), simulationCombo.getValue().toString(), timeCombo.getValue().toString(), s2);
-        Table(a);
+       ArrayList<BackEnd> b= s2.getMysql().Time_Select(datePicker.getValue().toString(), simulationCombo.getValue().toString(), timeCombo.getValue().toString(), s2);
+        backE.addAll(b);
+        tableBack.setItems(backE);
         drawBackup();
 
     }
@@ -441,11 +444,6 @@ public class Controller implements Initializable {
         gc.drawImage(road, from.x - road.getWidth(), from.y);
         gc2.drawImage(dw, from.x - road.getWidth(), from.y);
     }
-public void Table(String[][] b)
-{
-    
 
-
-}
 
 }

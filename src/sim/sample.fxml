@@ -237,9 +237,21 @@
                            </VBox.margin></Button>
                         <TableView fx:id="tableBack" prefHeight="400.0" prefWidth="400.0">
                           <columns>
-                            <TableColumn id="btableType" prefWidth="110.0" text="Vehicle Type" />
-                            <TableColumn id="btableName" prefWidth="113.0" text="Vehicle Name" />
-                              <TableColumn id="btableNode" minWidth="0.0" prefWidth="130.0" text="Current Node" />
+                            <TableColumn prefWidth="110.0" text="Vehicle Type" >
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="vType" />
+                                </cellValueFactory>
+                                    </TableColumn>
+                            <TableColumn prefWidth="113.0" text="Vehicle Name" >
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="vName" />
+                                </cellValueFactory>
+                                    </TableColumn>
+                              <TableColumn minWidth="0.0" prefWidth="130.0" text="Current Node" >
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="nodeName" />
+                                  </cellValueFactory>
+                                      </TableColumn>
                           </columns>
                         </TableView>
 
