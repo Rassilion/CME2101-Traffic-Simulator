@@ -16,16 +16,22 @@ public class Simulation {
     SQL mysql = new SQL();
     private Map map;
     private int tick;
+    public static String Mappath;
+    public static String Vehiclepath;
 
-    public Simulation(String path,String path2) {
+
+
+
+
+    public Simulation() {
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
 
 
-        readNode(path);
-        readEdge(path);
-        readVehicle(path2);
+        readNode(Mappath);
+        readEdge(Mappath);
+        readVehicle(Vehiclepath);
 
         display();
 
@@ -39,6 +45,14 @@ public class Simulation {
         }
 
     }
+
+    public Simulation(boolean flag) {
+        vehicles = new Vehicle[100];
+        ambulances = new Ambulance[100];
+        map = new Map();
+    }
+
+
 
     public void display() {
         System.out.println("vehicles");

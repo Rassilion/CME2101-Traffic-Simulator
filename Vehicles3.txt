@@ -1,4 +1,3 @@
-//Example input file for vehicles
 C1 BCA
 C2 KNK
 C3 KNK
