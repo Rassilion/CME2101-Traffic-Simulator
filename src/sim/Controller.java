@@ -13,12 +13,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import javax.swing.text.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -441,9 +443,7 @@ public class Controller implements Initializable {
     }
 public void Table(String[][] b)
 {
-    for (int i = 0; i <b.length ; i++) {
-        tableBack.getColumns().addAll(b[i][0],b[i][1],b[i][2]);
-    }
+    
 
 
 }
