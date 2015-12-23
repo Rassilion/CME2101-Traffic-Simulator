@@ -111,11 +111,15 @@ public class Controller implements Initializable {
     }
 
     public void SimFill(String date) {
+        simulationCombo.getItems().clear();
+        timeCombo.getItems().clear();
         ArrayList<String> k = s.getMysql().selectSim(date);
         simulationCombo.getItems().addAll(k);
     }
 
     public void TimeFill(String sim) {
+
+        timeCombo.getItems().clear();
         ArrayList<String> k = s.getMysql().selectTime(Integer.parseInt(sim));
         timeCombo.getItems().addAll(k);
     }
