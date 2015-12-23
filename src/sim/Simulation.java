@@ -13,8 +13,19 @@ public class Simulation {
 
     private Vehicle[] vehicles;
     private Ambulance[] ambulances;
-    SQL mysql = new SQL();
+
+
+
+  public   SQL mysql = new SQL();
+    public SQL getMysql() {
+        return mysql;
+    }
+
+    public void setMysql(SQL mysql) {
+        this.mysql = mysql;
+    }
     private Map map;
+
     private int tick;
 
     public Simulation(String path,String path2) {
