@@ -71,6 +71,7 @@ public class Controller implements Initializable {
     //table lists
     public ObservableList<Vehicle> car;
     public ObservableList<Ambulance> ambulance;
+    
 
 
     @Override
