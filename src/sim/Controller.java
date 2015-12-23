@@ -441,8 +441,11 @@ public class Controller implements Initializable {
     }
 public void Table(String[][] b)
 {
+    for (int i = 0; i <b.length ; i++) {
+        tableBack.getColumns().addAll(b[i][0],b[i][1],b[i][2]);
+    }
 
-    tableBack.getColumns().addAll(b);
+
 }
 
 }
