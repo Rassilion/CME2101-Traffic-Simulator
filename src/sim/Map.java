@@ -10,18 +10,8 @@ public class Map {
     private Node root;
     private ArrayList<Node> nodes;
 
-    private int[][] adjacentMatrix;
-
     public Node getRoot() {
         return root;
-    }
-
-    public int[][] getAdjacentMatrix() {
-        return adjacentMatrix;
-    }
-
-    public void setAdjacentMatrix(int[][] adjecentMatrix) {
-        this.adjacentMatrix = adjecentMatrix;
     }
 
     public void setRoot(Node root) {
@@ -69,12 +59,12 @@ public class Map {
         q.add(startPoint);
         visited[startPoint.id] = true;
         while (!q.isEmpty()) {
-            Node n, child;
+            Node n;
             n = (q.peek());
             for (int i = 0; i < 4; i++) {
 
                 if (n.adjacent[i] != null) {
-                    if (visited[n.adjacent[i].id] != true) {
+                    if (!visited[n.adjacent[i].id]) {
                         q.add(n.adjacent[i]);
                         previous[n.adjacent[i].id] = n;
                         visited[n.adjacent[i].id] = true;

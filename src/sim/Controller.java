@@ -34,8 +34,11 @@ public class Controller implements Initializable {
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
     public Canvas canvas1;
+    public ToggleGroup heuristicToggle;
+    public RadioButton heuristic1;
+    public RadioButton heuristic2;
 
-    public Simulation s = new Simulation();
+    static public Simulation s = new Simulation("RoadMap.txt", "Vehicles.txt");
 
     public Simulation s2 = new Simulation(true);
 
@@ -53,14 +56,14 @@ public class Controller implements Initializable {
 
 
     //images
-    public Image road = new Image("/road.png");
-    public Image road2 = new Image("/road2.png");
-    public Image node = new Image("/node.png");
+    private Image road = new Image("/road.png");
+    private Image road2 = new Image("/road2.png");
+    private Image node = new Image("/node.png");
 
-    public Image de = new Image("/de.png");
-    public Image ds = new Image("/ds.png");
-    public Image dw = new Image("/dw.png");
-    public Image dn = new Image("/dn.png");
+    private Image de = new Image("/de.png");
+    private Image ds = new Image("/ds.png");
+    private Image dw = new Image("/dw.png");
+    private Image dn = new Image("/dn.png");
     //table lists
     public ObservableList<Vehicle> car;
     public ObservableList<Ambulance> ambulance;
@@ -135,7 +138,7 @@ public class Controller implements Initializable {
         barChart2.getData().clear();
         for (int i = 0; i < s.getAmbulances().length; i++) {
             if (s.getAmbulances()[i] != null) {
-                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name, (int) s.getAmbulances()[i].endTime - (int) s.getAmbulances()[i].startTime));
+                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name, s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime));
             }
         }
         barChart2.getData().addAll(series2);
@@ -153,7 +156,7 @@ public class Controller implements Initializable {
     public void newButtonClick() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.showAndWait();
@@ -171,7 +174,10 @@ public class Controller implements Initializable {
             s.setTick(s.getTick() + 1);
             timeArea.setText(String.valueOf(s.getTick()));
             //move vehicles
-            s.simulate();
+            if (heuristicToggle.getSelectedToggle() == heuristic1)
+                s.simulate(1);
+            else
+                s.simulate(2);
             //update screen
             drawVehicle();
             updateTables();

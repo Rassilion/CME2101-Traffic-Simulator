@@ -49,8 +49,7 @@ public class NewController implements Initializable {
     public void startClick(ActionEvent event) {
         System.out.println(map);
         System.out.println(vehicle);
-       Simulation.Mappath=map;
-        Simulation.Vehiclepath=vehicle;
+        Controller.s = new Simulation(map, vehicle);
 
         Stage stage = (Stage) start.getScene().getWindow();
         // do what you have to do

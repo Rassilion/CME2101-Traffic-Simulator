@@ -15,8 +15,8 @@ public class Simulation {
     private Ambulance[] ambulances;
 
 
+    public SQL mysql = new SQL();
 
-  public   SQL mysql = new SQL();
     public SQL getMysql() {
         return mysql;
     }
@@ -24,17 +24,13 @@ public class Simulation {
     public void setMysql(SQL mysql) {
         this.mysql = mysql;
     }
+
     private Map map;
 
     private int tick;
-    public static String Mappath;
-    public static String Vehiclepath;
 
 
-
-
-
-    public Simulation() {
+    public Simulation(String Mappath, String Vehiclepath) {
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
@@ -62,7 +58,6 @@ public class Simulation {
         ambulances = new Ambulance[100];
         map = new Map();
     }
-
 
 
     public void display() {
@@ -105,13 +100,16 @@ public class Simulation {
     }
 
 
-    public void simulate() {
+    public void simulate(int h) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle == null) {
                 break;
             }
             //select next node
-            vehicle.heuristic1();
+            if (h == 1)
+                vehicle.heuristic1();
+            else
+                vehicle.heuristic2();
         }
 
         for (Ambulance vehicle : ambulances) {
@@ -274,7 +272,7 @@ public class Simulation {
                 if (!splited[0].equals(""))
                     map.addNode(new Node(splited[0]));
             }
-            Node.uniqueId=0;
+            Node.uniqueId = 0;
             bufferedReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found..");
