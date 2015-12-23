@@ -37,10 +37,8 @@
                                         <Insets/>
                                     </VBox.margin>
                                 </ScrollPane>
+
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                    <fx:define>
-                                        <ToggleGroup fx:id="heuristicToggle"/>
-                                    </fx:define>
                                     <children>
                                         <RadioButton fx:id="heuristic1" mnemonicParsing="false" selected="true"
                                                      text="Heuristic1">
@@ -55,6 +53,7 @@
                                         <Button mnemonicParsing="false" onAction="#newButtonClick" text="New Sim"/>
                                     </children>
                                 </HBox>
+
                             </children>
                         </VBox>
                         <VBox alignment="CENTER_RIGHT" fillWidth="false" HBox.hgrow="SOMETIMES">
