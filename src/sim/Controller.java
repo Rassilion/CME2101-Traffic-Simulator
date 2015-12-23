@@ -40,7 +40,6 @@ public class Controller implements Initializable {
 
     public ToggleGroup heuristicToggle;
     public RadioButton heuristic1;
-    public RadioButton heuristic2;
 
     static public Simulation s = new Simulation("RoadMap.txt", "Vehicles.txt");
 
@@ -57,6 +56,8 @@ public class Controller implements Initializable {
     public BarChart barChart1;
     public BarChart barChart2;
     public BarChart barChart3;
+    public Label carWait;
+    public Label ambulanceWait;
 
 
     //images
@@ -137,9 +138,11 @@ public class Controller implements Initializable {
     public void updateChart() {
         barChart1.getData().clear();
         XYChart.Series series1 = new XYChart.Series();
+        int totalCarWait=0,totalAmbulanceTime=0;
         for (int i = 0; i < s.getVehicles().length; i++) {
             if (s.getVehicles()[i] != null) {
                 series1.getData().add(new XYChart.Data(s.getVehicles()[i].name, s.getVehicles()[i].getSumWait()));
+                totalCarWait+=s.getVehicles()[i].getSumWait();
             }
         }
         barChart1.getData().addAll(series1);
@@ -149,6 +152,7 @@ public class Controller implements Initializable {
         for (int i = 0; i < s.getAmbulances().length; i++) {
             if (s.getAmbulances()[i] != null) {
                 series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name, s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime));
+                totalAmbulanceTime+=s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime;
             }
         }
         barChart2.getData().addAll(series2);
@@ -159,6 +163,9 @@ public class Controller implements Initializable {
             series3.getData().add(new XYChart.Data(node.name, node.wait));
         }
         barChart3.getData().addAll(series3);
+
+        carWait.setText("Total car Wait: "+totalCarWait);
+        ambulanceWait.setText("Total ambulance time: "+totalAmbulanceTime);
 
 
     }
