@@ -10,7 +10,7 @@ public class Node {
     public double y;
     public int id;
     public static int uniqueId = 0;
-
+    public int wait;
 
     public Node(String name) {
         this.adjacent = new Node[4];
@@ -20,16 +20,20 @@ public class Node {
         vehicles = new Vehicle[4];
         id = uniqueId;
         uniqueId++;
+        wait = 0;
 
     }
 
-    public void addVehicle(Vehicle vehicle) {
+    public boolean addVehicle(Vehicle vehicle) {
+        boolean flag = false;
         for (int i = 0; i < vehicles.length; i++) {
             if (vehicles[i] == null) {
                 vehicles[i] = vehicle;
+                flag = true;
                 break;
             }
         }
+        return flag;
     }
 
     public void deleteVehicle(Vehicle vehicle) {

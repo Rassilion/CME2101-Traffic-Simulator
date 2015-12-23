@@ -1,0 +1,17 @@
+//Example input file for vehicles
+C1 B
+C2 B
+C3 B
+C4 I
+C5 D
+C6 A  
+C7 A
+C8 A
+C9 F
+C10 F
+C11 F
+C12 H
+A1 0 B J
+A2 0 A H
+A3 1 F B
+A4 8 D E

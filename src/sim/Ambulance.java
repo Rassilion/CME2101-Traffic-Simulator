@@ -25,9 +25,9 @@ public class Ambulance extends Vehicle {
         this.startTime = startingtime;
         this.setColor(Color.DARKRED);
 
-        this.active=false;
-        this.finish=false;
-        this.endTime=startingtime;
+        this.active = false;
+        this.finish = false;
+        this.endTime = startingtime;
 
     }
 
@@ -61,7 +61,14 @@ public class Ambulance extends Vehicle {
 
     public void setActive() {
         this.active = true;
-        currentNode.addVehicle(this);
+        while (!currentNode.addVehicle(this)) {
+            if (currentNode.getVehiclecount() == 4) {
+                for (int i = 0; i < 4; i++) {
+                    if (!(currentNode.vehicles[i] instanceof Ambulance))
+                        currentNode.vehicles[i].move();
+                }
+            }
+        }
     }
 
     @Override
@@ -76,6 +83,7 @@ public class Ambulance extends Vehicle {
 
     @Override
     public void move() {
+        moved = true;
         if (this.active) {
             if (delay == 0) {
                 if (a.isEmpty()) {
@@ -87,6 +95,8 @@ public class Ambulance extends Vehicle {
                     }
                 } else {
                     this.nextNode = a.pop();
+                    if (nextNode == currentNode)
+                        return;
                     if (nextNode.getVehiclecount() == 4) {
                         for (int i = 0; i < 4; i++) {
                             nextNode.vehicles[i].move();
@@ -98,6 +108,8 @@ public class Ambulance extends Vehicle {
                     wait = 0;
                     currentNode.addVehicle(this);
                     nextNode = null;
+                    this.endTime++;
+                    currentNode.wait++;
                 }
             } else {
                 delay--;

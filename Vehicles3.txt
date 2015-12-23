@@ -1,0 +1,12 @@
+//Example input file for vehicles
+C1 BCA
+C2 KNK
+C3 KNK
+C4 KNK
+C5 CGL
+C6 BYR
+C7 BYR
+C8 BYR
+A1 0 KNK BCA
+A2 0 BCA BYR
+A3 2 BLC BRN

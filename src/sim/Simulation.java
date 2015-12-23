@@ -28,32 +28,19 @@ public class Simulation {
 
     private int tick;
 
-    public Simulation() {
-        String path = "RoadMap.txt";
-        String path2 = "Vehicles.txt";
+    public Simulation(String path,String path2) {
         vehicles = new Vehicle[100];
         ambulances = new Ambulance[100];
         map = new Map();
 
-        map.setAdjacentMatrix(readMap(path));
 
         readNode(path);
         readEdge(path);
         readVehicle(path2);
 
-        System.out.println("  A B C D E F G H I J K");
-        String str = "ABCDEFGHIJK";
-        for (int i = 0; i < 11; i++) {
-            System.out.print(str.charAt(i) + " ");
-            for (int j = 0; j < 11; j++) {
-                System.out.print(map.getAdjacentMatrix()[i][j] + " ");
-            }
-            System.out.println();
-        }
         display();
 
         try {
-
             mysql.Sim_Control();
             writeNode();
             writeVehicle();
@@ -92,6 +79,17 @@ public class Simulation {
         return flag;
     }
 
+    public boolean wait(Vehicle vehicle) {
+        boolean flag = true;
+        if (vehicle.getNextNode().getVehiclecount() == 4) {
+            for (Vehicle v : vehicle.getNextNode().vehicles) {
+                if (!v.isMoved())
+                    flag = false;
+            }
+        }
+        return flag;
+    }
+
 
     public void simulate() {
         for (Vehicle vehicle : vehicles) {
@@ -99,42 +97,45 @@ public class Simulation {
                 break;
             }
             //select next node
-            vehicle.heuristic2();
+            vehicle.heuristic1();
         }
 
         for (Ambulance vehicle : ambulances) {
             if (vehicle == null) {
                 break;
             }
-
-
             vehicle.move();
-            vehicle.endTime++;
+
             if (tick == vehicle.getStartTime()) {
                 vehicle.setActive();
-
-
             }
 
         }
-
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle == null) {
-                break;
+        boolean flag = true;
+        while (flag) {
+            flag = false;
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle == null) {
+                    break;
+                }
+                vehicle.move();
+                if (!vehicle.isMoved()) {
+                    if (!wait(vehicle))
+                        flag = true;
+                    else
+                        vehicle.updateWait();
+                }
             }
-            // vehicle wait
-            if (vehicle.getNextNode().getVehiclecount() == 4) {
-                vehicle.updateWait();
-                continue;
-            }
-            vehicle.move();
         }
         display();
         try {
             writeTime(tick);
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                ) {
             //TODO print some information
         }
+
     }
 
     public void getStatistics() {
@@ -181,25 +182,21 @@ public class Simulation {
     public void writeNode() {
 
         for (Node node : map.getNodes()) {
-            String e="0",s="0",w="0",n="0";
-            if(node.adjacent[0]!=null)
-            {
-                e=node.adjacent[0].name;
+            String e = "0", s = "0", w = "0", n = "0";
+            if (node.adjacent[0] != null) {
+                e = node.adjacent[0].name;
             }
-            if(node.adjacent[1]!=null)
-            {
-                s=node.adjacent[1].name;
+            if (node.adjacent[1] != null) {
+                s = node.adjacent[1].name;
             }
-            if(node.adjacent[2]!=null)
-            {
-                w=node.adjacent[2].name;
+            if (node.adjacent[2] != null) {
+                w = node.adjacent[2].name;
             }
-            if(node.adjacent[3]!=null)
-            {
-                n=node.adjacent[3].name;
+            if (node.adjacent[3] != null) {
+                n = node.adjacent[3].name;
             }
 
-            mysql.Node_Insert(node.name,e,s,w,n);
+            mysql.Node_Insert(node.name, e, s, w, n);
         }
 
     }

@@ -100,5 +100,9 @@ public class Map {
     }
 
 
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> ed66953b21641ab11f75f0afc126e0ec7429d346

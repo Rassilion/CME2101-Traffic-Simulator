@@ -17,8 +17,10 @@ public class Hashtable {
     }
 
     public int Key(String edge) {
-
-        int key = (int) edge.charAt(0);
+        int key = 0;
+        for (int i = 0; i < edge.length(); i++) {
+            key += (int) edge.charAt(i);
+        }
         return key;
     }
 
@@ -39,7 +41,7 @@ public class Hashtable {
 
     public int Linearprobing(int key, int i) {
 
-        return hashFunction(key) + i;
+        return (hashFunction(key) + i) % hashArray.length;
 
     }
 
