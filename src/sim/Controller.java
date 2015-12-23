@@ -34,16 +34,10 @@ public class Controller implements Initializable {
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
     public Canvas canvas1;
-<<<<<<< HEAD
     public ComboBox simulationCombo;
     public ComboBox timeCombo;
 
-    public Simulation s = new Simulation();
-
-
-=======
     static public Simulation s = new Simulation("RoadMap.txt","Vehicles.txt");
->>>>>>> ed66953b21641ab11f75f0afc126e0ec7429d346
     public Button MoveButton;
     public Button backupButton;
     public TextField timeArea;
@@ -104,7 +98,6 @@ public class Controller implements Initializable {
         ambulanceList.refresh();
     }
 
-<<<<<<< HEAD
     public void SimFill(String date) {
         ArrayList<String> k = s.getMysql().selectSim(date);
         simulationCombo.getItems().addAll(k);
@@ -116,15 +109,14 @@ public class Controller implements Initializable {
     }
 
     public void ChooseDate() {
-
-
         SimFill(datePicker.getValue().toString());
     }
 
     public void ChooseSim() {
 
         TimeFill(simulationCombo.getValue().toString());
-=======
+    }
+
     public void updateChart() {
         barChart1.getData().clear();
         XYChart.Series series1 = new XYChart.Series();
@@ -165,7 +157,6 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
->>>>>>> ed66953b21641ab11f75f0afc126e0ec7429d346
     }
 
     //Move button
