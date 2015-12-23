@@ -97,6 +97,7 @@ public class Controller implements Initializable {
         drawMap();
         drawVehicle();
         updateChart();
+        s.initSQL();
     }
 
     //Rewrite tables on screen

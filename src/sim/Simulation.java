@@ -42,14 +42,7 @@ public class Simulation {
 
         display();
 
-        try {
-            mysql.Sim_Control();
-            writeNode();
-            writeVehicle();
-            writeTime(tick);
-        } catch (Exception e) {
-            //TODO print some information
-        }
+
 
     }
 
@@ -58,7 +51,17 @@ public class Simulation {
         ambulances = new Ambulance[100];
         map = new Map();
     }
-
+public void initSQL()
+{
+    try {
+        mysql.Sim_Control();
+        writeNode();
+        writeVehicle();
+        writeTime(tick);
+    } catch (Exception e) {
+        //TODO print some information
+    }
+}
 
     public void display() {
         System.out.println("vehicles");
@@ -203,7 +206,7 @@ public class Simulation {
                 n = node.adjacent[3].name;
             }
 
-            mysql.Node_Insert(node.name, e, s, w, n);
+            mysql.Node_Insert(node.name, e, s, w, n,node.x,node.y);
         }
 
     }
