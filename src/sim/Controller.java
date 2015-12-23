@@ -156,8 +156,8 @@ public class Controller implements Initializable {
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
-            stage.show();
-            stage.setOnCloseRequest(we -> start());
+            stage.showAndWait();
+            start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,6 +206,11 @@ public class Controller implements Initializable {
     //draw map on screen
     public void drawMap() {
         GraphicsContext gc = layer1.getGraphicsContext2D();
+        gc.clearRect(0, 0, 6000, 5000);
+        GraphicsContext gc2 = layer2.getGraphicsContext2D();
+        gc2.clearRect(0, 0, 6000, 5000);
+        GraphicsContext gc3 = layer2.getGraphicsContext2D();
+        gc3.clearRect(0, 0, 6000, 5000);
         Font theFont = Font.font("Times New Roman", 10);
         gc.setFont(theFont);
         s.getMap().getRoot().x = 20;
