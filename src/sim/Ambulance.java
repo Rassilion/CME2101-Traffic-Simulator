@@ -18,6 +18,13 @@ public class Ambulance extends Vehicle {
     Stack<Node> a = new Stack<Node>();
     Stack<Node> b = new Stack<Node>();
 
+    public Ambulance(String name){
+        super(name);
+        this.setColor(Color.DARKRED);
+        this.active = true;
+        this.finish = false;
+        this.startTime = 0;
+    }
 
     public Ambulance(String destination, int startingtime, Node startingPoint, String name) {
         super(startingPoint, name, null);

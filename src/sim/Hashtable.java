@@ -15,6 +15,8 @@ public class Hashtable {
             this.Addelement(node.name, 0);
         }
     }
+    public  Hashtable()
+    {}
 
     public int Key(String edge) {
         int key = 0;

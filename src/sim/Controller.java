@@ -33,10 +33,13 @@ public class Controller implements Initializable {
     public Canvas layer1;//node and road layer
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
-    public Canvas canvas1;
+
+    public Canvas layer4;//node and road layer
+    public Canvas layer5;//direction layer
+    public Canvas layer6;//vehicle layer
+
     public ToggleGroup heuristicToggle;
     public RadioButton heuristic1;
-    public RadioButton heuristic2;
 
     static public Simulation s = new Simulation("RoadMap.txt", "Vehicles.txt");
 
@@ -53,6 +56,8 @@ public class Controller implements Initializable {
     public BarChart barChart1;
     public BarChart barChart2;
     public BarChart barChart3;
+    public Label carWait;
+    public Label ambulanceWait;
 
 
     //images
@@ -95,8 +100,9 @@ public class Controller implements Initializable {
 
         ambulanceList.setItems(ambulance);
         drawMap();
-        drawVehicle();
+        drawVehicle(s, layer3);
         updateChart();
+        s.initSQL();
     }
 
     //Rewrite tables on screen
@@ -106,11 +112,15 @@ public class Controller implements Initializable {
     }
 
     public void SimFill(String date) {
+        simulationCombo.getItems().clear();
+        timeCombo.getItems().clear();
         ArrayList<String> k = s.getMysql().selectSim(date);
         simulationCombo.getItems().addAll(k);
     }
 
     public void TimeFill(String sim) {
+
+        timeCombo.getItems().clear();
         ArrayList<String> k = s.getMysql().selectTime(Integer.parseInt(sim));
         timeCombo.getItems().addAll(k);
     }
@@ -127,9 +137,13 @@ public class Controller implements Initializable {
     public void updateChart() {
         barChart1.getData().clear();
         XYChart.Series series1 = new XYChart.Series();
+        int totalCarWait = 0, totalAmbulanceTime = 0;
         for (int i = 0; i < s.getVehicles().length; i++) {
             if (s.getVehicles()[i] != null) {
-                series1.getData().add(new XYChart.Data(s.getVehicles()[i].name+"("+s.getVehicles()[i].getSumWait()+")", s.getVehicles()[i].getSumWait()));
+
+                series1.getData().add(new XYChart.Data(s.getVehicles()[i].name + "(" + s.getVehicles()[i].getSumWait() + ")", s.getVehicles()[i].getSumWait()));
+                totalCarWait += s.getVehicles()[i].getSumWait();
+
             }
         }
         barChart1.getData().addAll(series1);
@@ -138,8 +152,10 @@ public class Controller implements Initializable {
         barChart2.getData().clear();
         for (int i = 0; i < s.getAmbulances().length; i++) {
             if (s.getAmbulances()[i] != null) {
-                int time=s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime;
-                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name+"("+time+")", time));
+                int time = s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime;
+                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name + "(" + time + ")", s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime));
+                totalAmbulanceTime += s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime;
+
             }
         }
         barChart2.getData().addAll(series2);
@@ -147,9 +163,12 @@ public class Controller implements Initializable {
         XYChart.Series series3 = new XYChart.Series();
         barChart3.getData().clear();
         for (Node node : s.getMap().getNodes()) {
-            series3.getData().add(new XYChart.Data(node.name+"("+node.wait+")", node.wait));
+            series3.getData().add(new XYChart.Data(node.name + "(" + node.wait + ")", node.wait));
         }
         barChart3.getData().addAll(series3);
+
+        carWait.setText("Total car Wait: " + totalCarWait);
+        ambulanceWait.setText("Total ambulance time: " + totalAmbulanceTime);
 
 
     }
@@ -180,7 +199,7 @@ public class Controller implements Initializable {
             else
                 s.simulate(2);
             //update screen
-            drawVehicle();
+            drawVehicle(s, layer3);
             updateTables();
             updateChart();
         }
@@ -199,8 +218,11 @@ public class Controller implements Initializable {
     }
 
     public void BackUpButton() {
+        s = new Simulation(true);
         System.out.println(Integer.parseInt(simulationCombo.getValue().toString()));
-        s.getMysql().selectN(Integer.parseInt(simulationCombo.getValue().toString()), s);
+        s2.getMysql().selectN(Integer.parseInt(simulationCombo.getValue().toString()), s2);
+        s2.getMysql().Time_Select(datePicker.getValue().toString(), simulationCombo.getValue().toString(), timeCombo.getValue().toString(), s2);
+        drawBackup();
 
     }
 
@@ -210,14 +232,46 @@ public class Controller implements Initializable {
             ButtonClick();
     }
 
+    //draw back up
+    public void drawBackup() {
+        GraphicsContext gc = layer4.getGraphicsContext2D();
+        gc.clearRect(0, 0, 1000, 1000);
+        GraphicsContext gc2 = layer5.getGraphicsContext2D();
+        gc2.clearRect(0, 0, 1000, 1000);
+        GraphicsContext gc3 = layer6.getGraphicsContext2D();
+        gc3.clearRect(0, 0, 1000, 1000);
+        ArrayList<Node> nodes = s2.getMap().getNodes();
+        //write nodes on screen until every node on screen
+        for (Node node : nodes) {
+            drawNode(node, layer4);
+        }
+
+        //draw roads
+        for (Node node : nodes) {
+            if (node.adjacent[0] != null) {
+                drawEast(node, layer4, layer5);
+            }
+            if (node.adjacent[1] != null) {
+                drawSouth(node, layer4, layer5);
+            }
+            if (node.adjacent[2] != null) {
+                drawWest(node, layer4, layer5);
+            }
+            if (node.adjacent[3] != null) {
+                drawNorth(node, layer4, layer5);
+            }
+        }
+        drawVehicle(s2, layer6);
+    }
+
     //draw map on screen
     public void drawMap() {
         GraphicsContext gc = layer1.getGraphicsContext2D();
-        gc.clearRect(0, 0, 6000, 5000);
+        gc.clearRect(0, 0, 2000, 2000);
         GraphicsContext gc2 = layer2.getGraphicsContext2D();
-        gc2.clearRect(0, 0, 6000, 5000);
-        GraphicsContext gc3 = layer2.getGraphicsContext2D();
-        gc3.clearRect(0, 0, 6000, 5000);
+        gc2.clearRect(0, 0, 2000, 2000);
+        GraphicsContext gc3 = layer3.getGraphicsContext2D();
+        gc3.clearRect(0, 0, 2000, 2000);
         Font theFont = Font.font("Times New Roman", 10);
         gc.setFont(theFont);
         s.getMap().getRoot().x = 20;
@@ -243,23 +297,23 @@ public class Controller implements Initializable {
         //draw roads
         for (Node node : nodes) {
             if (node.adjacent[0] != null) {
-                drawEast(node);
+                drawEast(node, layer1, layer2);
             }
             if (node.adjacent[1] != null) {
-                drawSouth(node);
+                drawSouth(node, layer1, layer2);
             }
             if (node.adjacent[2] != null) {
-                drawWest(node);
+                drawWest(node, layer1, layer2);
             }
             if (node.adjacent[3] != null) {
-                drawNorth(node);
+                drawNorth(node, layer1, layer2);
             }
         }
     }
 
     //draw vehicles
-    public void drawVehicle() {
-        GraphicsContext gc = layer3.getGraphicsContext2D();
+    public void drawVehicle(Simulation s, Canvas layer) {
+        GraphicsContext gc = layer.getGraphicsContext2D();
         //clear canvas
         gc.clearRect(0, 0, 6000, 5000);
         ArrayList<Node> nodes = s.getMap().getNodes();
@@ -348,30 +402,36 @@ public class Controller implements Initializable {
         }
     }
 
+    public void drawNode(Node node, Canvas layer) {
+        GraphicsContext gc = layer.getGraphicsContext2D();
+        gc.drawImage(this.node, node.x, node.y);
+        gc.fillText(node.name, node.x + this.node.getHeight(), node.y);
+    }
+
 
     //Edge and direction draw
-    public void drawSouth(Node from) {
+    public void drawSouth(Node from, Canvas layer1, Canvas layer2) {
         GraphicsContext gc = layer1.getGraphicsContext2D();
         GraphicsContext gc2 = layer2.getGraphicsContext2D();
         gc.drawImage(road2, from.x, from.y + node.getHeight());
         gc2.drawImage(ds, from.x, from.y + node.getHeight());
     }
 
-    public void drawNorth(Node from) {
+    public void drawNorth(Node from, Canvas layer1, Canvas layer2) {
         GraphicsContext gc = layer1.getGraphicsContext2D();
         GraphicsContext gc2 = layer2.getGraphicsContext2D();
         gc.drawImage(road2, from.x, from.y - road.getWidth());
         gc2.drawImage(dn, from.x, from.y - road.getWidth());
     }
 
-    public void drawEast(Node from) {
+    public void drawEast(Node from, Canvas layer1, Canvas layer2) {
         GraphicsContext gc = layer1.getGraphicsContext2D();
         GraphicsContext gc2 = layer2.getGraphicsContext2D();
         gc.drawImage(road, from.x + node.getHeight(), from.y);
         gc2.drawImage(de, from.x + node.getHeight(), from.y);
     }
 
-    public void drawWest(Node from) {
+    public void drawWest(Node from, Canvas layer1, Canvas layer2) {
         GraphicsContext gc = layer1.getGraphicsContext2D();
         GraphicsContext gc2 = layer2.getGraphicsContext2D();
         gc.drawImage(road, from.x - road.getWidth(), from.y);
