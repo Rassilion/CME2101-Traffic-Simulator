@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.Controller">
     <tabs>
         <Tab text="Main">
             <content>
@@ -119,9 +119,9 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Canvas fx:id="backUpCanvas" height="548.0" width="634.0" />
-                  <DatePicker fx:id="datePicker" layoutX="679.0" layoutY="40.0" prefHeight="31.0" prefWidth="209.0" />
-                  <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" prefHeight="31.0" prefWidth="209.0" />
-                  <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" />
+                  <DatePicker fx:id="datePicker" layoutX="679.0" layoutY="40.0" onAction="#ChooseDate" prefHeight="31.0" prefWidth="209.0" />
+                  <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" onAction="#ChooseSim" prefHeight="31.0" prefWidth="209.0" promptText="Select Simulation" />
+                  <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" promptText="Select Time" />
                   <Button fx:id="backupButton" layoutX="751.0" layoutY="277.0" mnemonicParsing="false" onAction="#BackUpButton" text="Back Up!!" />
                </children>
             </Pane>
