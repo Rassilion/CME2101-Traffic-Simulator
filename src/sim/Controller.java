@@ -129,7 +129,7 @@ public class Controller implements Initializable {
         XYChart.Series series1 = new XYChart.Series();
         for (int i = 0; i < s.getVehicles().length; i++) {
             if (s.getVehicles()[i] != null) {
-                series1.getData().add(new XYChart.Data(s.getVehicles()[i].name, s.getVehicles()[i].getSumWait()));
+                series1.getData().add(new XYChart.Data(s.getVehicles()[i].name+"("+s.getVehicles()[i].getSumWait()+")", s.getVehicles()[i].getSumWait()));
             }
         }
         barChart1.getData().addAll(series1);
@@ -138,7 +138,8 @@ public class Controller implements Initializable {
         barChart2.getData().clear();
         for (int i = 0; i < s.getAmbulances().length; i++) {
             if (s.getAmbulances()[i] != null) {
-                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name, s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime));
+                int time=s.getAmbulances()[i].endTime - s.getAmbulances()[i].startTime;
+                series2.getData().add(new XYChart.Data(s.getAmbulances()[i].name+"("+time+")", time));
             }
         }
         barChart2.getData().addAll(series2);
@@ -146,7 +147,7 @@ public class Controller implements Initializable {
         XYChart.Series series3 = new XYChart.Series();
         barChart3.getData().clear();
         for (Node node : s.getMap().getNodes()) {
-            series3.getData().add(new XYChart.Data(node.name, node.wait));
+            series3.getData().add(new XYChart.Data(node.name+"("+node.wait+")", node.wait));
         }
         barChart3.getData().addAll(series3);
 
