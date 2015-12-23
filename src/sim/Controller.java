@@ -34,7 +34,14 @@ public class Controller implements Initializable {
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
     public Canvas canvas1;
-   public  Simulation s = new Simulation();
+
+    public Simulation s = new Simulation();
+
+    public Simulation s2 = new Simulation(true);
+
+    public ComboBox simulationCombo;
+    public ComboBox timeCombo;
+
     public Button MoveButton;
     public Button backupButton;
     public TextField timeArea;
@@ -93,6 +100,25 @@ public class Controller implements Initializable {
     public void updateTables() {
         carList.refresh();
         ambulanceList.refresh();
+    }
+
+    public void SimFill(String date) {
+        ArrayList<String> k = s.getMysql().selectSim(date);
+        simulationCombo.getItems().addAll(k);
+    }
+
+    public void TimeFill(String sim) {
+        ArrayList<String> k = s.getMysql().selectTime(Integer.parseInt(sim));
+        timeCombo.getItems().addAll(k);
+    }
+
+    public void ChooseDate() {
+        SimFill(datePicker.getValue().toString());
+    }
+
+    public void ChooseSim() {
+
+        TimeFill(simulationCombo.getValue().toString());
     }
 
     public void updateChart() {
@@ -166,7 +192,8 @@ public class Controller implements Initializable {
     }
 
     public void BackUpButton() {
-        System.out.println(datePicker.getValue().toString());
+        System.out.println(Integer.parseInt(simulationCombo.getValue().toString()));
+        s.getMysql().selectN(Integer.parseInt(simulationCombo.getValue().toString()), s);
 
     }
 

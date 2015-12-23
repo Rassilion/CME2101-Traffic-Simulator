@@ -13,8 +13,19 @@ public class Simulation {
 
     private Vehicle[] vehicles;
     private Ambulance[] ambulances;
-    SQL mysql = new SQL();
+
+
+
+  public   SQL mysql = new SQL();
+    public SQL getMysql() {
+        return mysql;
+    }
+
+    public void setMysql(SQL mysql) {
+        this.mysql = mysql;
+    }
     private Map map;
+
     private int tick;
     public static String Mappath;
     public static String Vehiclepath;
@@ -141,11 +152,6 @@ public class Simulation {
 
     }
 
-    public void getStatistics() {
-
-
-    }
-
     public void addVehicle(Vehicle vehicle) {
         for (int i = 0; i < vehicles.length; i++) {
             if (vehicles[i] == null) {
@@ -268,6 +274,7 @@ public class Simulation {
                 if (!splited[0].equals(""))
                     map.addNode(new Node(splited[0]));
             }
+            Node.uniqueId=0;
             bufferedReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, file not found..");
@@ -299,35 +306,6 @@ public class Simulation {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public int[][] readMap(String url) {
-        int[][] tempArray = new int[11][11];
-        try {
-            FileReader fileReader = new FileReader(new File(url));
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            String line = null;
-
-            int i = 0;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] splited = line.split(" ");
-                String[] splited2 = splited[1].split(",");
-                for (int j = 0; j < splited2.length; j++) {
-                    if (!splited2[j].equals("0")) {
-                        tempArray[i][splited2[j].charAt(0) - 65] = 1;
-                    }
-                }
-                i++;
-            }
-            bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Sorry, file not found..");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tempArray;
 
     }
 
