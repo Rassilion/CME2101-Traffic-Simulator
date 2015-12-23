@@ -1,5 +1,6 @@
 package sim;
 
+import javafx.collections.ObservableList;
 import sun.util.locale.StringTokenIterator;
 
 import java.sql.Connection;
@@ -160,7 +161,8 @@ public class SQL {
     }
 
 
-    public void Time_Select(String date, String sim, String time, Simulation s) {
+    public String[][] Time_Select(String date, String sim, String time, Simulation s) {
+        String[][] arr=new String[50][3];
         try {
             int simu = Integer.parseInt(sim);
             int tim = Integer.parseInt(time);
@@ -174,7 +176,13 @@ public class SQL {
 
             ResultSet rs = st.executeQuery(query1);
 
+           int j=0;
             while (rs.next()) {
+
+                arr[j][0]=rs.getString("VType");
+                arr[j][1]=rs.getString("VName");
+                arr[j][2]=rs.getString("NodeName");
+                j++;
                 if (rs.getString("VType").equals("Car")) {
                     s.getMap().getNode(rs.getString("NodeName")).addVehicle(new Vehicle(rs.getString("VName")));
                 }
@@ -186,7 +194,7 @@ public class SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+return arr;
     }
 
     public String now(String dateFormat) {
