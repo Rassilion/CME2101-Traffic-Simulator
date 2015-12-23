@@ -36,14 +36,16 @@
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
 
                                     <children>
-                                        <RadioButton mnemonicParsing="false" selected="true" text="Heuristic1">
+                                        <fx:define>
+                                                <ToggleGroup fx:id="heuristicToggle" />
+                                        </fx:define>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="Heuristic1" toggleGroup="$heuristicToggle">
+
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin></RadioButton>
-                                        <RadioButton mnemonicParsing="false" text="Heuristic2">
-                                            <toggleGroup>
-                                                <ToggleGroup fx:id="heuristicToggle" />
-                                            </toggleGroup>
+                                        <RadioButton mnemonicParsing="false" text="Heuristic2" toggleGroup="$heuristicToggle">
+
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin></RadioButton>
