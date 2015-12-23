@@ -196,12 +196,21 @@
                                 </ScrollPane>
                             </children>
                         </VBox>
-                        <VBox alignment="CENTER_RIGHT" fillWidth="false" HBox.hgrow="SOMETIMES">
+                        <VBox alignment="TOP_CENTER" fillWidth="false" HBox.hgrow="SOMETIMES">
                             <children>
 
-                                <DatePicker fx:id="datePicker" layoutX="688.0" layoutY="40.0" onAction="#ChooseDate" prefHeight="31.0" prefWidth="209.0" />
-                                <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" onAction="#ChooseSim" prefHeight="31.0" prefWidth="209.0" promptText="Select Simulation" />
-                                <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" promptText="Select Time" />
+                                <DatePicker fx:id="datePicker" layoutX="688.0" layoutY="40.0" onAction="#ChooseDate" prefHeight="31.0" prefWidth="209.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin></DatePicker>
+                                <ComboBox fx:id="simulationCombo" layoutX="685.0" layoutY="116.0" onAction="#ChooseSim" prefHeight="31.0" prefWidth="209.0" promptText="Select Simulation">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin></ComboBox>
+                                <ComboBox fx:id="timeCombo" layoutX="685.0" layoutY="181.0" prefHeight="31.0" prefWidth="209.0" promptText="Select Time">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin></ComboBox>
                                 <Button fx:id="backupButton" layoutX="751.0" layoutY="277.0" mnemonicParsing="false" onAction="#BackUpButton" text="Back Up!!" />
 
 
@@ -210,7 +219,7 @@
                                 <Insets left="360.0" />
                             </HBox.margin>
                             <padding>
-                                <Insets left="-360.0" />
+                                <Insets left="-360.0" top="50.0" />
                             </padding>
                         </VBox>
                     </children>
