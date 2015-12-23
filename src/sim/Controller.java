@@ -34,7 +34,8 @@ public class Controller implements Initializable {
     public Canvas layer2;//direction layer
     public Canvas layer3;//vehicle layer
     public Canvas canvas1;
-    static public Simulation s = new Simulation("RoadMap.txt","Vehicles.txt");
+    static public Simulation s = new Simulation("RoadMap3.txt", "Vehicles3.txt");
+    static public Simulation s2 = new Simulation("RoadMap3.txt", "Vehicles3.txt");
     public Button MoveButton;
     public Button backupButton;
     public TextField timeArea;
