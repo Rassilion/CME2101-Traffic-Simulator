@@ -35,9 +35,7 @@
                                     </VBox.margin>
                                 </ScrollPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                            <fx:define>
-                                <ToggleGroup fx:id="heuristicToggle" />
-                            </fx:define>
+
                            <children>
                               <RadioButton mnemonicParsing="false" selected="true" text="Heuristic1">
                                  <toggleGroup>
